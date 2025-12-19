@@ -442,20 +442,42 @@
             }
         };
 
-        const handleMoveToBalance = async () => {
-            if(earningWalletBalance < 100) { tg.showAlert("You need at least 100 TK to move."); return; }
-            const btn = document.getElementById('move-to-balance-btn'); btn.disabled = true; btn.textContent = 'Moving...';
-            try {
-                const db = firebase.database();
-                await db.ref(`users/${tgUser.id}/balance`).set(firebase.database.ServerValue.increment(earningWalletBalance));
-                userState.balance += earningWalletBalance;
-                earningWalletBalance = 0;
-                localStorage.setItem(`earningWallet_${tgUser.id}`, '0');
-                tg.HapticFeedback.notificationOccurred('success');
-                tg.showAlert("Successfully moved to main balance!");
-            } catch(error) { console.error("Failed to move balance:", error); tg.showAlert("Failed to move balance. Please try again.");
-            } finally { btn.textContent = 'Move to Main Balance'; renderUI(); }
+                const handleMoveToBalance = async () => {
+            // ১. ব্যালেন্স চেক (১০০ টাকার কম হলে আগেই আটকে দেবে, অ্যাড দেখাবে না)
+            if(earningWalletBalance < 100) { 
+                tg.showAlert("You need at least 100 TK to move."); 
+                return; 
+            }
+            
+            // ২. অ্যাড দেখানোর ফাংশন কল করা হচ্ছে
+            showInterstitialAd(async () => {
+                // অ্যাড দেখা শেষ হলে এই ভেতরের কোড কাজ করবে
+                const btn = document.getElementById('move-to-balance-btn'); 
+                btn.disabled = true; 
+                btn.textContent = 'Moving...';
+                
+                try {
+                    const db = firebase.database();
+                    // ৩. মেইন ব্যালেন্সে টাকা যোগ করা
+                    await db.ref(`users/${tgUser.id}/balance`).set(firebase.database.ServerValue.increment(earningWalletBalance));
+                    
+                    userState.balance += earningWalletBalance;
+                    earningWalletBalance = 0;
+                    localStorage.setItem(`earningWallet_${tgUser.id}`, '0');
+                    
+                    tg.HapticFeedback.notificationOccurred('success');
+                    tg.showAlert("Successfully moved to main balance!");
+                } catch(error) { 
+                    console.error("Failed to move balance:", error); 
+                    tg.showAlert("Failed to move balance. Please try again.");
+                } finally { 
+                    btn.disabled = false; // বাটন আবার সচল হবে
+                    btn.textContent = 'Move to Main Balance'; 
+                    renderUI(); 
+                }
+            });
         };
+
 
         const renderWithdrawalHistory = () => {
             const listEl = document.getElementById('withdrawal-history-list');
