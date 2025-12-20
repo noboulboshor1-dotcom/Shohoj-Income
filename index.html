@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <style>
-        /* --- ORIGINAL CSS --- */
+        /* --- ORIGINAL CSS (UNTOUCHED) --- */
         :root {
             --font-family: 'Poppins', sans-serif;
             --primary-color: #E74C3C; --secondary-color: #F39C12;
@@ -82,6 +82,7 @@
         .popup-loader .spinner { width: 40px; height: 40px; border-radius: 50%; border: 4px solid; border-color: var(--primary-color) transparent; animation: spin 1s linear infinite; margin: 0 auto 15px;}
         @keyframes spin { to { transform: rotate(360deg); } }
         
+        /* --- ORIGINAL LOADER CSS --- */
         #app-loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .light-theme #app-loader { background-color: var(--background-light); } .dark-theme #app-loader { background-color: var(--background-dark); }
         #app-loader .spinner { width: 50px; height: 50px; border-radius: 50%; border: 5px solid; border-color: var(--primary-color) transparent; animation: spin 1s linear infinite; }
@@ -103,10 +104,10 @@
         .action-btn { padding: 10px 20px; font-size: 0.9rem; font-weight: 600; color: #fff; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s; background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); margin-left: auto; white-space: nowrap; }
         .action-btn:disabled { background: #808B96; cursor: not-allowed; }
 
-        /* --- UPDATED LUCKY SPIN CSS (12 Segments) --- */
+        /* --- SPIN WHEEL CSS --- */
         .wheel-container { position: relative; width: 300px; height: 300px; margin: 0 auto; }
         .wheel { width: 100%; height: 100%; border-radius: 50%; border: 8px solid var(--primary-color); position: relative; transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67); overflow: hidden; 
-            /* 12 Segments (30deg each) with Alternating Colors */
+            /* 12 Segments (30deg each) */
             background: conic-gradient(
                 #FF5733 0deg 30deg, #FFC300 30deg 60deg, #DAF7A6 60deg 90deg, 
                 #33FF57 90deg 120deg, #33C1FF 120deg 150deg, #884EA0 150deg 180deg,
@@ -115,39 +116,22 @@
             );
         }
         .wheel-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 45px; height: 45px; background: white; border-radius: 50%; z-index: 10; display: flex; justify-content: center; align-items: center; border: 3px solid #333; box-shadow: 0 0 10px rgba(0,0,0,0.3); }
-        .marker { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid var(--secondary-color); z-index: 20; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3)); }
+        .marker { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid var(--secondary-color); z-index: 20; }
         .spin-btn { display: block; margin: 30px auto; padding: 12px 50px; font-size: 1.2rem; font-weight: bold; color: white; background: var(--primary-color); border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4); transition: transform 0.2s; }
         .spin-btn:active { transform: scale(0.95); }
-        .spin-btn:disabled { background: #95a5a6; cursor: not-allowed; box-shadow: none; }
+        .spin-btn:disabled { background: #95a5a6; cursor: not-allowed; }
         
-        /* Updated Wheel Text Positioning */
         .wheel-text { 
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
-            width: 0; 
-            height: 0;
-            /* No width/height to keep it centered perfectly */
-            display: flex;
-            align-items: center;
-            justify-content: flex-end; /* Push text outwards */
-            color: white; 
-            font-weight: bold; 
-            text-shadow: 1px 1px 2px black; 
-            font-size: 14px; 
-            pointer-events: none; 
+            position: absolute; top: 50%; left: 50%; width: 0; height: 0;
+            display: flex; align-items: center; justify-content: flex-end;
+            color: white; font-weight: bold; text-shadow: 1px 1px 2px black; font-size: 12px; pointer-events: none; 
         }
-        /* Inner text span to handle distance from center */
-        .wheel-text span {
-            display: block;
-            width: 130px; /* Distance from center to text */
-            text-align: right;
-            padding-right: 10px;
-        }
+        .wheel-text span { display: block; width: 135px; text-align: right; padding-right: 10px; }
     </style>
 </head>
 <body>
     <div id="app-loader"><div class="spinner"></div><p id="loading-progress">0%</p></div>
+    
     <div id="popup" class="popup-overlay"><div class="popup-content"><div id="popup-body"></div></div></div>
     
     <div id="app" style="display: none;">
@@ -185,26 +169,24 @@
 
             <div id="spin-page" class="page">
                 <h2 style="text-align:center; margin-bottom:20px; color: var(--primary-color);">Daily Lucky Spin</h2>
-                
                 <div class="wheel-container">
                     <div class="marker"></div>
                     <div class="wheel" id="lucky-wheel">
                         <div class="wheel-text" style="transform: rotate(15deg);"><span>1.0</span></div>
-                        <div class="wheel-text" style="transform: rotate(45deg);"><span>5.0</span></div>
-                        <div class="wheel-text" style="transform: rotate(75deg);"><span>10.0</span></div>
-                        <div class="wheel-text" style="transform: rotate(105deg);"><span>20.0</span></div>
-                        <div class="wheel-text" style="transform: rotate(135deg);"><span>30.0</span></div>
+                        <div class="wheel-text" style="transform: rotate(45deg);"><span>2.5</span></div>
+                        <div class="wheel-text" style="transform: rotate(75deg);"><span>3.10</span></div>
+                        <div class="wheel-text" style="transform: rotate(105deg);"><span>4.20</span></div>
+                        <div class="wheel-text" style="transform: rotate(135deg);"><span>5.30</span></div>
                         <div class="wheel-text" style="transform: rotate(165deg);"><span>50.0</span></div>
                         <div class="wheel-text" style="transform: rotate(195deg);"><span>-50.0</span></div>
-                        <div class="wheel-text" style="transform: rotate(225deg);"><span>-30.0</span></div>
-                        <div class="wheel-text" style="transform: rotate(255deg);"><span>-20.0</span></div>
-                        <div class="wheel-text" style="transform: rotate(285deg);"><span>-10.0</span></div>
-                        <div class="wheel-text" style="transform: rotate(315deg);"><span>-5.0</span></div>
+                        <div class="wheel-text" style="transform: rotate(225deg);"><span>-5.30</span></div>
+                        <div class="wheel-text" style="transform: rotate(255deg);"><span>-4.20</span></div>
+                        <div class="wheel-text" style="transform: rotate(285deg);"><span>-3.10</span></div>
+                        <div class="wheel-text" style="transform: rotate(315deg);"><span>-2.5</span></div>
                         <div class="wheel-text" style="transform: rotate(345deg);"><span>-1.0</span></div>
                     </div>
-                    <div class="wheel-center"><i class="fas fa-gift" style="color: var(--primary-color); font-size: 1.2rem;"></i></div>
+                    <div class="wheel-center"><i class="fas fa-gift" style="color: var(--primary-color);"></i></div>
                 </div>
-
                 <button id="spin-btn" class="spin-btn">SPIN NOW</button>
                 <p style="text-align:center; margin-top:15px; color:#777; font-size: 0.9rem;">প্রতিদিন একবার স্পিন করে জিতে নিন বোনাস!</p>
             </div>
@@ -253,18 +235,16 @@
 
         const showPopup = (content) => { popupBody.innerHTML = content; popup.style.display = 'flex'; };
         const closePopup = () => { popup.style.display = 'none'; };
-        const updateProgress = (percentage) => { loadingProgress.textContent = `${percentage}%`; };
+        const updateProgress = (percentage) => { if(loadingProgress) loadingProgress.textContent = `${percentage}%`; };
 
-        // --- Helper to Show Interstitial Ad before Action ---
+        // --- NEW: Helper to Show Interstitial Ad before Action ---
         const showInterstitialAd = (callback) => {
             if (!appConfig.adZoneId) { callback(); return; }
             const adFunction = window['show_' + appConfig.adZoneId];
             if (typeof adFunction !== 'function') { callback(); return; }
 
-            // Show Loader
             showPopup(`<div class="popup-loader"><div class="spinner"></div></div><h3>Loading Ad...</h3><p>Please wait...</p>`);
             
-            // Call Ad
             adFunction().then(() => {
                 closePopup();
                 callback();
@@ -313,7 +293,6 @@
                 await historyPromise;
                 updateProgress(80);
 
-                // Load SDK
                 loadAdSdk(appConfig.adZoneId);
                 
                 earningWalletBalance = parseFloat(localStorage.getItem(`earningWallet_${tgUser.id}`) || '0');
@@ -509,7 +488,7 @@
             });
         };
 
-        // --- UPDATED SPIN WHEEL LOGIC ---
+        // --- UPDATED SPIN WHEEL LOGIC (Fixing Values and Weights) ---
         const handleSpinWheel = async () => {
             const today = new Date().toISOString().slice(0, 10);
             if (userState.lastSpinDate === today) {
@@ -526,19 +505,20 @@
 
                 // Define 12 Segments (Total 360 deg, 30 deg each)
                 // Weights: Higher number = Higher chance
+                // Your requested values: 1.0, 2.5, 3.10, 4.20, 5.30, 50, -50, -5.30, -4.20, -3.10, -2.5, -1.0
                 const segments = [
                     { value: 1.0, deg: 15, weight: 20 },
-                    { value: 5.0, deg: 45, weight: 15 },
-                    { value: 10.0, deg: 75, weight: 10 },
-                    { value: 20.0, deg: 105, weight: 5 },
-                    { value: 30.0, deg: 135, weight: 3 },
-                    { value: 50.0, deg: 165, weight: 1 },  // Rare (Low weight)
-                    { value: -50.0, deg: 195, weight: 1 }, // Rare Bad Luck
-                    { value: -30.0, deg: 225, weight: 3 },
-                    { value: -20.0, deg: 255, weight: 5 },
-                    { value: -10.0, deg: 285, weight: 10 },
-                    { value: -5.0, deg: 315, weight: 15 },
-                    { value: -1.0, deg: 345, weight: 12 }
+                    { value: 2.5, deg: 45, weight: 18 },
+                    { value: 3.10, deg: 75, weight: 15 },
+                    { value: 4.20, deg: 105, weight: 10 },
+                    { value: 5.30, deg: 135, weight: 5 },
+                    { value: 50.0, deg: 165, weight: 1 },  // Rare Positive
+                    { value: -50.0, deg: 195, weight: 1 }, // Rare Negative
+                    { value: -5.30, deg: 225, weight: 5 },
+                    { value: -4.20, deg: 255, weight: 8 },
+                    { value: -3.10, deg: 285, weight: 12 },
+                    { value: -2.5, deg: 315, weight: 15 },
+                    { value: -1.0, deg: 345, weight: 15 }
                 ];
 
                 // Weighted Random Selection
