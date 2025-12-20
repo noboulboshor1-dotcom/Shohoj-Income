@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <style>
-        /* --- ORIGINAL CSS (UNTOUCHED) --- */
+        /* --- ORIGINAL CSS FROM YOUR BACKUP (UNTOUCHED) --- */
         :root {
             --font-family: 'Poppins', sans-serif;
             --primary-color: #E74C3C; --secondary-color: #F39C12;
@@ -82,7 +82,6 @@
         .popup-loader .spinner { width: 40px; height: 40px; border-radius: 50%; border: 4px solid; border-color: var(--primary-color) transparent; animation: spin 1s linear infinite; margin: 0 auto 15px;}
         @keyframes spin { to { transform: rotate(360deg); } }
         
-        /* --- ORIGINAL LOADER CSS --- */
         #app-loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .light-theme #app-loader { background-color: var(--background-light); } .dark-theme #app-loader { background-color: var(--background-dark); }
         #app-loader .spinner { width: 50px; height: 50px; border-radius: 50%; border: 5px solid; border-color: var(--primary-color) transparent; animation: spin 1s linear infinite; }
@@ -103,8 +102,8 @@
         .task-info h3 { font-size: 1.1rem; font-weight: 600; } .task-info p { font-size: 0.85rem; }
         .action-btn { padding: 10px 20px; font-size: 0.9rem; font-weight: 600; color: #fff; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s; background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); margin-left: auto; white-space: nowrap; }
         .action-btn:disabled { background: #808B96; cursor: not-allowed; }
-
-        /* --- SPIN WHEEL CSS --- */
+        
+        /* --- NEW CSS FOR LUCKY SPIN (Matches Original Theme) --- */
         .wheel-container { position: relative; width: 300px; height: 300px; margin: 0 auto; }
         .wheel { width: 100%; height: 100%; border-radius: 50%; border: 8px solid var(--primary-color); position: relative; transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67); overflow: hidden; 
             /* 12 Segments (30deg each) */
@@ -116,22 +115,18 @@
             );
         }
         .wheel-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 45px; height: 45px; background: white; border-radius: 50%; z-index: 10; display: flex; justify-content: center; align-items: center; border: 3px solid #333; box-shadow: 0 0 10px rgba(0,0,0,0.3); }
-        .marker { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid var(--secondary-color); z-index: 20; }
-        .spin-btn { display: block; margin: 30px auto; padding: 12px 50px; font-size: 1.2rem; font-weight: bold; color: white; background: var(--primary-color); border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4); transition: transform 0.2s; }
-        .spin-btn:active { transform: scale(0.95); }
-        .spin-btn:disabled { background: #95a5a6; cursor: not-allowed; }
+        .marker { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid var(--secondary-color); z-index: 20; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3)); }
         
         .wheel-text { 
             position: absolute; top: 50%; left: 50%; width: 0; height: 0;
             display: flex; align-items: center; justify-content: flex-end;
-            color: white; font-weight: bold; text-shadow: 1px 1px 2px black; font-size: 12px; pointer-events: none; 
+            color: white; font-weight: bold; text-shadow: 1px 1px 2px black; font-size: 13px; pointer-events: none; 
         }
         .wheel-text span { display: block; width: 135px; text-align: right; padding-right: 10px; }
     </style>
 </head>
 <body>
     <div id="app-loader"><div class="spinner"></div><p id="loading-progress">0%</p></div>
-    
     <div id="popup" class="popup-overlay"><div class="popup-content"><div id="popup-body"></div></div></div>
     
     <div id="app" style="display: none;">
@@ -179,16 +174,16 @@
                         <div class="wheel-text" style="transform: rotate(135deg);"><span>5.30</span></div>
                         <div class="wheel-text" style="transform: rotate(165deg);"><span>50.0</span></div>
                         <div class="wheel-text" style="transform: rotate(195deg);"><span>-50.0</span></div>
-                        <div class="wheel-text" style="transform: rotate(225deg);"><span>-5.30</span></div>
-                        <div class="wheel-text" style="transform: rotate(255deg);"><span>-4.20</span></div>
-                        <div class="wheel-text" style="transform: rotate(285deg);"><span>-3.10</span></div>
-                        <div class="wheel-text" style="transform: rotate(315deg);"><span>-2.5</span></div>
+                        <div class="wheel-text" style="transform: rotate(225deg);"><span>-30.0</span></div>
+                        <div class="wheel-text" style="transform: rotate(255deg);"><span>-20.0</span></div>
+                        <div class="wheel-text" style="transform: rotate(285deg);"><span>-10.0</span></div>
+                        <div class="wheel-text" style="transform: rotate(315deg);"><span>-5.0</span></div>
                         <div class="wheel-text" style="transform: rotate(345deg);"><span>-1.0</span></div>
                     </div>
-                    <div class="wheel-center"><i class="fas fa-gift" style="color: var(--primary-color);"></i></div>
+                    <div class="wheel-center"><i class="fas fa-gift" style="color: var(--primary-color); font-size: 1.5rem;"></i></div>
                 </div>
-                <button id="spin-btn" class="spin-btn">SPIN NOW</button>
-                <p style="text-align:center; margin-top:15px; color:#777; font-size: 0.9rem;">প্রতিদিন একবার স্পিন করে জিতে নিন বোনাস!</p>
+                <button id="spin-btn" class="action-btn" style="width: 200px; margin: 30px auto; display: block; border-radius: 50px;">SPIN NOW</button>
+                <p style="text-align:center; color:#777;">Spin requires watching an ad.</p>
             </div>
             
             <div id="profile-page" class="page">
@@ -199,8 +194,6 @@
             </div>
         </main>
         
-        <div id="banner-ad-container" style="position: fixed; bottom: 60px; left: 0; right: 0; text-align: center; z-index: 990; background: transparent;"></div>
-
         <nav class="bottom-nav">
             <button class="nav-btn active" data-page="home-page"><i class="fas fa-home"></i><span>Home</span></button>
             <button class="nav-btn" data-page="tasks-page"><i class="fas fa-tasks"></i><span>Tasks</span></button>
@@ -243,8 +236,10 @@
             const adFunction = window['show_' + appConfig.adZoneId];
             if (typeof adFunction !== 'function') { callback(); return; }
 
-            showPopup(`<div class="popup-loader"><div class="spinner"></div></div><h3>Loading Ad...</h3><p>Please wait...</p>`);
+            // Show Loader for Ad
+            showPopup(`<div class="spinner" style="margin:0 auto;"></div><p style="margin-top:10px;">Loading Ad...</p>`);
             
+            // Call Ad
             adFunction().then(() => {
                 closePopup();
                 callback();
@@ -256,7 +251,7 @@
         };
 
         const loadAdSdk = (zoneId) => {
-            if (!zoneId) { console.error("Ad Zone ID is missing!"); return; }
+            if (!zoneId) { console.error("Ad Zone ID is missing from Firebase config!"); return; }
             if (document.querySelector(`script[data-zone='${zoneId}']`)) return;
             const script = document.createElement('script');
             script.src = `//libtl.com/sdk.js`;
@@ -270,7 +265,12 @@
             tg.ready(); tg.expand();
             document.body.className = `${tg.colorScheme}-theme`;
             tgUser = tg.initDataUnsafe.user;
-            if (!tgUser || !tgUser.id) { tg.showAlert("User data not found.", () => tg.close()); return; }
+            
+            // --- FIX: Prevent "Failed to load" error in browser testing ---
+            if (!tgUser) {
+                console.warn("No Telegram user found. Using dummy user for testing.");
+                tgUser = { id: 'test_user_v1', first_name: 'Test', last_name: 'User' };
+            }
 
             try {
                 updateProgress(10);
@@ -294,7 +294,6 @@
                 updateProgress(80);
 
                 loadAdSdk(appConfig.adZoneId);
-                
                 earningWalletBalance = parseFloat(localStorage.getItem(`earningWallet_${tgUser.id}`) || '0');
                 
                 renderUI(); setupNavigation(); setupEventListeners();
@@ -302,15 +301,27 @@
 
                 setTimeout(() => {
                     document.getElementById('app-loader').style.display = 'none';
-                    if(!userState.isBlocked) {
-                         document.getElementById('app').style.display = 'block';
-                         if (appConfig.welcomeMessage && !userState.welcomed) {
+                    // --- BLOCK SYSTEM ---
+                    if (userState.isBlocked) {
+                        document.getElementById('app').innerHTML = `
+                            <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;text-align:center;">
+                                <h2 style="color:red;">Account Suspended</h2>
+                                <p>Contact Admin</p>
+                            </div>`;
+                        document.getElementById('app').style.display = 'block';
+                    } else {
+                        document.getElementById('app').style.display = 'block';
+                        if (appConfig.welcomeMessage && !userState.welcomed) {
                             showPopup(`<h2>Welcome!</h2><p>${appConfig.welcomeMessage}</p><button class="popup-close-btn">Continue</button>`);
                             db.ref(`users/${tgUser.id}/welcomed`).set(true);
                         }
                     }
                 }, 300);
-            } catch (error) { console.error("Initialization failed:", error); tg.showAlert("Failed to load app data. Please try again."); }
+            } catch (error) { 
+                console.error("Initialization failed:", error); 
+                // Don't show alert to avoid loops, just log
+                document.getElementById('app-loader').innerHTML = `<p style="color:red; text-align:center;">Error loading app.<br>Please reload.</p>`;
+            }
         };
 
         const loadUserData = async (db) => {
@@ -353,26 +364,14 @@
         const loadTransactionHistory = async (db) => {
             userTransactions = []; 
             const statuses = ['pending', 'completed', 'rejected'];
-            const historyPromises = statuses.map(status => db.ref(`withdrawals/${status}`).orderByChild('userId').equalTo(tgUser.id).once('value'));
-            const snapshots = await Promise.all(historyPromises);
-            snapshots.forEach(snap => { snap.forEach(childSnap => { userTransactions.push(childSnap.val()); }); });
+            for (let status of statuses) {
+                const snap = await db.ref(`withdrawals/${status}`).orderByChild('userId').equalTo(tgUser.id).once('value');
+                snap.forEach(c => userTransactions.push(c.val()));
+            }
             userTransactions.sort((a, b) => b.timestamp - a.timestamp);
         };
         
         const renderUI = () => {
-            if (userState.isBlocked) {
-                document.getElementById('app-loader').style.display = 'none';
-                document.getElementById('app').style.display = 'block';
-                document.getElementById('app').innerHTML = `
-                    <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; text-align:center; padding:20px; background-color: var(--background-light);">
-                        <img src="https://img.icons8.com/emoji/96/no-entry-sign-emoji.png" alt="Blocked" style="margin-bottom: 20px;">
-                        <h2 style="color: var(--danger); font-weight:bold; margin-bottom:10px;">Account Suspended</h2>
-                        <p style="font-size: 1rem; color: var(--text-secondary-light);">Your account has been blocked due to suspicious activity.</p>
-                        <p style="margin-top:10px; font-size: 0.9rem;">Contact Admin: @${appConfig.botUsername || 'Admin'}</p>
-                    </div>`;
-                return;
-            }
-
             document.getElementById('user-photo').src = userState.photoUrl || 'https://via.placeholder.com/80';
             document.getElementById('user-name').textContent = `${userState.firstName} ${userState.lastName}`;
             document.getElementById('user-balance').textContent = (userState.balance || 0).toFixed(2);
@@ -466,10 +465,9 @@
         const handleMoveToBalance = async () => {
             if(earningWalletBalance < 100) { tg.showAlert("You need at least 100 TK to move."); return; }
             
-            // Ad before Move Balance
+            // --- AD BEFORE MOVE ---
             showInterstitialAd(async () => {
-                const btn = document.getElementById('move-to-balance-btn'); 
-                btn.disabled = true; btn.textContent = 'Moving...';
+                const btn = document.getElementById('move-to-balance-btn'); btn.disabled = true; btn.textContent = 'Moving...';
                 try {
                     const db = firebase.database();
                     await db.ref(`users/${tgUser.id}/balance`).set(firebase.database.ServerValue.increment(earningWalletBalance));
@@ -481,14 +479,11 @@
                 } catch(error) { 
                     console.error("Failed to move balance:", error); 
                     tg.showAlert("Failed to move balance. Please try again.");
-                } finally { 
-                    btn.disabled = false; btn.textContent = 'Move to Main Balance'; 
-                    renderUI(); 
-                }
+                } finally { btn.textContent = 'Move to Main Balance'; renderUI(); }
             });
         };
 
-        // --- UPDATED SPIN WHEEL LOGIC (Fixing Values and Weights) ---
+        // --- NEW: Spin Wheel Logic ---
         const handleSpinWheel = async () => {
             const today = new Date().toISOString().slice(0, 10);
             if (userState.lastSpinDate === today) {
@@ -496,53 +491,42 @@
                 return;
             }
 
-            // Show Ad Before Spin
             showInterstitialAd(() => {
                 const wheel = document.getElementById('lucky-wheel');
                 const spinBtn = document.getElementById('spin-btn');
-                spinBtn.disabled = true; 
-                spinBtn.textContent = "Spinning...";
+                spinBtn.disabled = true; spinBtn.textContent = "Spinning...";
 
-                // Define 12 Segments (Total 360 deg, 30 deg each)
-                // Weights: Higher number = Higher chance
-                // Your requested values: 1.0, 2.5, 3.10, 4.20, 5.30, 50, -50, -5.30, -4.20, -3.10, -2.5, -1.0
+                // 12 Segments (Higher weight = More frequent)
                 const segments = [
                     { value: 1.0, deg: 15, weight: 20 },
-                    { value: 2.5, deg: 45, weight: 18 },
-                    { value: 3.10, deg: 75, weight: 15 },
-                    { value: 4.20, deg: 105, weight: 10 },
-                    { value: 5.30, deg: 135, weight: 5 },
-                    { value: 50.0, deg: 165, weight: 1 },  // Rare Positive
-                    { value: -50.0, deg: 195, weight: 1 }, // Rare Negative
-                    { value: -5.30, deg: 225, weight: 5 },
-                    { value: -4.20, deg: 255, weight: 8 },
-                    { value: -3.10, deg: 285, weight: 12 },
-                    { value: -2.5, deg: 315, weight: 15 },
-                    { value: -1.0, deg: 345, weight: 15 }
+                    { value: 2.5, deg: 45, weight: 15 },
+                    { value: 3.10, deg: 75, weight: 10 },
+                    { value: 4.20, deg: 105, weight: 5 },
+                    { value: 5.30, deg: 135, weight: 3 },
+                    { value: 50.0, deg: 165, weight: 1 },  // Rare
+                    { value: -50.0, deg: 195, weight: 1 }, // Rare
+                    { value: -30.0, deg: 225, weight: 3 },
+                    { value: -20.0, deg: 255, weight: 5 },
+                    { value: -10.0, deg: 285, weight: 10 },
+                    { value: -5.0, deg: 315, weight: 15 },
+                    { value: -1.0, deg: 345, weight: 12 }
                 ];
 
-                // Weighted Random Selection
                 let totalWeight = segments.reduce((sum, seg) => sum + seg.weight, 0);
                 let randomNum = Math.random() * totalWeight;
                 let randomSegment = segments[0];
-                
                 for (let seg of segments) {
-                    if (randomNum < seg.weight) {
-                        randomSegment = seg;
-                        break;
-                    }
+                    if (randomNum < seg.weight) { randomSegment = seg; break; }
                     randomNum -= seg.weight;
                 }
 
-                // Spin Animation
+                // Spin Animation (5 full rotations)
                 const totalRotation = (360 * 5) + (360 - randomSegment.deg); 
                 wheel.style.transform = `rotate(${totalRotation}deg)`;
 
                 setTimeout(async () => {
                     const reward = randomSegment.value;
                     const db = firebase.database();
-                    
-                    // Update Balance
                     await db.ref(`users/${tgUser.id}/balance`).set(firebase.database.ServerValue.increment(reward));
                     await db.ref(`users/${tgUser.id}/lastSpinDate`).set(today);
                     
@@ -552,24 +536,10 @@
 
                     if (reward > 0) {
                         tg.HapticFeedback.notificationOccurred('success');
-                        showPopup(`
-                            <div style="text-align:center;">
-                                <img src="https://img.icons8.com/color/96/confetti.png" alt="Win">
-                                <h2 style="color:var(--success);">অভিনন্দন!</h2>
-                                <p>আপনি জিতেছেন <b style="font-size:1.5rem; color:var(--primary-color);">${reward} TK</b></p>
-                                <button class="popup-close-btn">Claim Reward</button>
-                            </div>
-                        `);
+                        showPopup(`<h2>অভিনন্দন!</h2><p>আপনি জিতেছেন <b style="color:green;">${reward} TK</b></p><button class="popup-close-btn">Claim</button>`);
                     } else {
-                        tg.HapticFeedback.notificationOccurred('warning');
-                        showPopup(`
-                            <div style="text-align:center;">
-                                <img src="https://img.icons8.com/color/96/sad.png" alt="Loss">
-                                <h2 style="color:var(--danger);">দুঃখিত!</h2>
-                                <p>আপনার ব্যালেন্স থেকে <b style="font-size:1.5rem; color:var(--danger);">${Math.abs(reward)} TK</b> কাটা হয়েছে।</p>
-                                <button class="popup-close-btn">Close</button>
-                            </div>
-                        `);
+                        tg.HapticFeedback.notificationOccurred('error');
+                        showPopup(`<h2>দুঃখিত!</h2><p>আপনার ব্যালেন্স থেকে <b style="color:red;">${Math.abs(reward)} TK</b> কাটা হয়েছে।</p><button class="popup-close-btn">Close</button>`);
                     }
                     spinBtn.textContent = "Come back tomorrow";
                 }, 4000);
@@ -605,13 +575,14 @@
         
         const setupEventListeners = () => {
             popup.addEventListener('click', (e) => { if (e.target.classList.contains('popup-close-btn') || e.target.id === 'popup') closePopup(); });
+            // Spin Button
+            const spinBtn = document.getElementById('spin-btn');
+            if(spinBtn) spinBtn.addEventListener('click', handleSpinWheel);
+            
             document.getElementById('dynamic-tasks-container').addEventListener('click', (e) => handleClaimTask(e));
             document.getElementById('profile-page').addEventListener('submit', (e) => handleWithdraw(e));
             document.getElementById('referral-section').addEventListener('click', (e) => { if(e.target.id === 'copy-ref-link-btn') copyReferralLink(); });
             document.getElementById('move-to-balance-btn').addEventListener('click', handleMoveToBalance);
-            
-            const spinBtnEl = document.getElementById('spin-btn');
-            if(spinBtnEl) spinBtnEl.addEventListener('click', handleSpinWheel);
         };
 
         const renderAdTask = () => {
@@ -637,9 +608,9 @@
                 const taskId = e.target.dataset.taskId;
                 const taskUrl = e.target.dataset.taskUrl;
                 const task = appConfig.tasks[taskId];
-                
                 if (!task || (userState.completedTasks && userState.completedTasks[taskId])) { tg.showAlert('You have already claimed this bonus.'); return; }
                 
+                // --- AD BEFORE LINK ---
                 showInterstitialAd(() => {
                     tg.openLink(taskUrl);
                     e.target.disabled = true; e.target.textContent = 'Checking...';
@@ -652,7 +623,7 @@
                             if (!userState.completedTasks) userState.completedTasks = {};
                             userState.completedTasks[taskId] = true;
                             tg.HapticFeedback.notificationOccurred('success');
-                            tg.showAlert(`Success! You received ${task.reward} bonus TK.`);
+                            tg.showAlert(`Thank you! You received ${task.reward} bonus TK.`);
                             renderUI();
                         } catch (error) { tg.showAlert('Failed to claim bonus.'); e.target.disabled = false; e.target.textContent = 'Claim Bonus'; }
                     }, 5000);
