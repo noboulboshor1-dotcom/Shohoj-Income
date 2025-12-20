@@ -102,17 +102,24 @@
         .task-info h3 { font-size: 1.1rem; font-weight: 600; } .task-info p { font-size: 0.85rem; }
         .action-btn { padding: 10px 20px; font-size: 0.9rem; font-weight: 600; color: #fff; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s; background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); margin-left: auto; white-space: nowrap; }
         .action-btn:disabled { background: #808B96; cursor: not-allowed; }
-        
-        .leaderboard-toggle { display: flex; justify-content: space-around; margin-bottom: 15px; }
-        .toggle-btn { padding: 10px 20px; border: none; background: none; font-size: 1rem; cursor: pointer; }
-        .light-theme .toggle-btn { color: var(--text-secondary-light); } .dark-theme .toggle-btn { color: var(--text-secondary-dark); }
-        .toggle-btn.active { font-weight: 700; color: var(--primary-color); border-bottom: 2px solid var(--primary-color); }
-        .leaderboard-list { list-style: none; }
-        .leaderboard-item { display: flex; align-items: center; padding: 10px; margin-bottom: 8px; border-radius: 8px; }
-        .light-theme .leaderboard-item { background-color: var(--surface-light); } .dark-theme .leaderboard-item { background-color: var(--surface-dark); }
-        .rank { font-size: 1.2rem; font-weight: 700; color: var(--primary-color); width: 40px; }
-        .leaderboard-item img { width: 40px; height: 40px; border-radius: 50%; margin-right: 10px; object-fit: cover; }
-        .leaderboard-name { font-weight: 600; flex-grow: 1; } .leaderboard-score { font-weight: 600; color: var(--primary-color); }
+
+        /* --- UPDATED LUCKY SPIN CSS (12 Segments) --- */
+        .wheel-container { position: relative; width: 300px; height: 300px; margin: 0 auto; }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 8px solid var(--primary-color); position: relative; transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67); overflow: hidden; 
+            /* 12 Segments (30deg each) */
+            background: conic-gradient(
+                #FF5733 0deg 30deg, #FFC300 30deg 60deg, #DAF7A6 60deg 90deg, 
+                #33FF57 90deg 120deg, #33C1FF 120deg 150deg, #884EA0 150deg 180deg,
+                #FF5733 180deg 210deg, #FFC300 210deg 240deg, #DAF7A6 240deg 270deg, 
+                #33FF57 270deg 300deg, #33C1FF 300deg 330deg, #884EA0 330deg 360deg
+            );
+        }
+        .wheel-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 45px; height: 45px; background: white; border-radius: 50%; z-index: 10; display: flex; justify-content: center; align-items: center; border: 3px solid #333; box-shadow: 0 0 10px rgba(0,0,0,0.3); }
+        .marker { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid var(--secondary-color); z-index: 20; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3)); }
+        .spin-btn { display: block; margin: 30px auto; padding: 12px 50px; font-size: 1.2rem; font-weight: bold; color: white; background: var(--primary-color); border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4); transition: transform 0.2s; }
+        .spin-btn:active { transform: scale(0.95); }
+        .spin-btn:disabled { background: #95a5a6; cursor: not-allowed; box-shadow: none; }
+        .wheel-text { position: absolute; top: 50%; left: 50%; transform-origin: 0 0; color: white; font-weight: bold; text-shadow: 1px 1px 2px black; font-size: 13px; pointer-events: none; width: 100px; text-align: right; }
     </style>
 </head>
 <body>
@@ -139,6 +146,7 @@
                 </div>
                 <div id="dynamic-links-container" style="margin-top: 20px;"></div>
             </div>
+            
             <div id="tasks-page" class="page">
                 <div class="earning-wallet-card">
                     <h3>Earning Wallet</h3>
@@ -150,15 +158,33 @@
                 <div id="ad-task-container"></div>
                 <h2>Bonus Tasks</h2><div id="dynamic-tasks-container"></div>
             </div>
-            <div id="leaderboard-page" class="page">
-                <h2>Leaderboard</h2>
-                <div class="leaderboard-toggle">
-                    <button class="toggle-btn active" data-board="referral">Top Referrers</button>
-                    <button class="toggle-btn" data-board="earning">Top Earners</button>
+
+            <div id="spin-page" class="page">
+                <h2 style="text-align:center; margin-bottom:20px; color: var(--primary-color);">Daily Lucky Spin</h2>
+                
+                <div class="wheel-container">
+                    <div class="marker"></div>
+                    <div class="wheel" id="lucky-wheel">
+                        <div class="wheel-text" style="transform: rotate(15deg) translate(90px) rotate(-15deg);">1.0</div>
+                        <div class="wheel-text" style="transform: rotate(45deg) translate(90px) rotate(-45deg);">5.0</div>
+                        <div class="wheel-text" style="transform: rotate(75deg) translate(90px) rotate(-75deg);">10.0</div>
+                        <div class="wheel-text" style="transform: rotate(105deg) translate(90px) rotate(-105deg);">20.0</div>
+                        <div class="wheel-text" style="transform: rotate(135deg) translate(90px) rotate(-135deg);">30.0</div>
+                        <div class="wheel-text" style="transform: rotate(165deg) translate(90px) rotate(-165deg);">50.0</div>
+                        <div class="wheel-text" style="transform: rotate(195deg) translate(90px) rotate(-195deg);">-50.0</div>
+                        <div class="wheel-text" style="transform: rotate(225deg) translate(90px) rotate(-225deg);">-30.0</div>
+                        <div class="wheel-text" style="transform: rotate(255deg) translate(90px) rotate(-255deg);">-20.0</div>
+                        <div class="wheel-text" style="transform: rotate(285deg) translate(90px) rotate(-285deg);">-10.0</div>
+                        <div class="wheel-text" style="transform: rotate(315deg) translate(90px) rotate(-315deg);">-5.0</div>
+                        <div class="wheel-text" style="transform: rotate(345deg) translate(90px) rotate(-345deg);">-1.0</div>
+                    </div>
+                    <div class="wheel-center"><i class="fas fa-gift" style="color: var(--primary-color); font-size: 1.2rem;"></i></div>
                 </div>
-                <div id="referral-board"><ul class="leaderboard-list" id="referral-leaderboard-list"></ul></div>
-                <div id="earning-board" style="display: none;"><ul class="leaderboard-list" id="earning-leaderboard-list"></ul></div>
+
+                <button id="spin-btn" class="spin-btn">SPIN NOW</button>
+                <p style="text-align:center; margin-top:15px; color:#777; font-size: 0.9rem;">প্রতিদিন একবার স্পিন করে জিতে নিন বোনাস!</p>
             </div>
+            
             <div id="profile-page" class="page">
                 <div id="referral-section"></div><div id="withdraw-section"></div>
                 <div id="withdrawal-history-section" style="margin-top: 20px;">
@@ -166,10 +192,13 @@
                 </div>
             </div>
         </main>
+        
+        <div id="banner-ad-container" style="position: fixed; bottom: 60px; left: 0; right: 0; text-align: center; z-index: 990; background: transparent;"></div>
+
         <nav class="bottom-nav">
             <button class="nav-btn active" data-page="home-page"><i class="fas fa-home"></i><span>Home</span></button>
             <button class="nav-btn" data-page="tasks-page"><i class="fas fa-tasks"></i><span>Tasks</span></button>
-            <button class="nav-btn" data-page="leaderboard-page"><i class="fas fa-trophy"></i><span>Leaderboard</span></button>
+            <button class="nav-btn" data-page="spin-page"><i class="fas fa-dharmachakra"></i><span>Spin</span></button>
             <button class="nav-btn" data-page="profile-page"><i class="fas fa-user-alt"></i><span>Profile</span></button>
         </nav>
     </div>
@@ -192,7 +221,6 @@
         };
         
         let appConfig = {}; let userState = {}; let tgUser = {}; let earningWalletBalance = 0;
-        let leaderboardData = { referral: [], earning: [] };
         let userTransactions = [];
 
         const popup = document.getElementById('popup');
@@ -203,14 +231,14 @@
         const closePopup = () => { popup.style.display = 'none'; };
         const updateProgress = (percentage) => { loadingProgress.textContent = `${percentage}%`; };
 
-        // --- NEW: Helper to Show Interstitial Ad before Action ---
+        // --- Helper to Show Interstitial Ad before Action ---
         const showInterstitialAd = (callback) => {
             if (!appConfig.adZoneId) { callback(); return; }
             const adFunction = window['show_' + appConfig.adZoneId];
             if (typeof adFunction !== 'function') { callback(); return; }
 
             // Show Loader
-            showPopup(`<div class="popup-loader"><div class="spinner"></div></div><h3>Loading...</h3><p>Please wait...</p>`);
+            showPopup(`<div class="popup-loader"><div class="spinner"></div></div><h3>Loading Ad...</h3><p>Please wait...</p>`);
             
             // Call Ad
             adFunction().then(() => {
@@ -242,7 +270,6 @@
 
             try {
                 updateProgress(10);
-                // Fix for Firebase App Exists Error
                 if (!firebase.apps.length) {
                     firebase.initializeApp(firebaseConfig);
                 } else {
@@ -258,19 +285,11 @@
                 await loadUserData(db); 
                 updateProgress(60);
 
-                const referralBoardPromise = db.ref('users').orderByChild('referrals').limitToLast(10).once('value');
-                const earningBoardPromise = db.ref('users').orderByChild('totalEarned').limitToLast(10).once('value');
                 const historyPromise = loadTransactionHistory(db);
-
-                const [referralBoardSnap, earningBoardSnap] = await Promise.all([referralBoardPromise, earningBoardPromise, historyPromise]);
+                await historyPromise;
                 updateProgress(80);
 
-                referralBoardSnap.forEach(child => { leaderboardData.referral.push(child.val()); });
-                earningBoardSnap.forEach(child => { leaderboardData.earning.push(child.val()); });
-                leaderboardData.referral.reverse(); leaderboardData.earning.reverse();
-                updateProgress(90);
-
-                // Load SDK using Admin Configured ID
+                // Load SDK
                 loadAdSdk(appConfig.adZoneId);
                 
                 earningWalletBalance = parseFloat(localStorage.getItem(`earningWallet_${tgUser.id}`) || '0');
@@ -338,7 +357,6 @@
         };
         
         const renderUI = () => {
-            // --- NEW: Block System UI ---
             if (userState.isBlocked) {
                 document.getElementById('app-loader').style.display = 'none';
                 document.getElementById('app').style.display = 'block';
@@ -442,42 +460,117 @@
             }
         };
 
-                const handleMoveToBalance = async () => {
-            // ১. ব্যালেন্স চেক (১০০ টাকার কম হলে আগেই আটকে দেবে, অ্যাড দেখাবে না)
-            if(earningWalletBalance < 100) { 
-                tg.showAlert("You need at least 100 TK to move."); 
-                return; 
-            }
+        const handleMoveToBalance = async () => {
+            if(earningWalletBalance < 100) { tg.showAlert("You need at least 100 TK to move."); return; }
             
-            // ২. অ্যাড দেখানোর ফাংশন কল করা হচ্ছে
+            // Ad before Move Balance
             showInterstitialAd(async () => {
-                // অ্যাড দেখা শেষ হলে এই ভেতরের কোড কাজ করবে
                 const btn = document.getElementById('move-to-balance-btn'); 
-                btn.disabled = true; 
-                btn.textContent = 'Moving...';
-                
+                btn.disabled = true; btn.textContent = 'Moving...';
                 try {
                     const db = firebase.database();
-                    // ৩. মেইন ব্যালেন্সে টাকা যোগ করা
                     await db.ref(`users/${tgUser.id}/balance`).set(firebase.database.ServerValue.increment(earningWalletBalance));
-                    
                     userState.balance += earningWalletBalance;
                     earningWalletBalance = 0;
                     localStorage.setItem(`earningWallet_${tgUser.id}`, '0');
-                    
                     tg.HapticFeedback.notificationOccurred('success');
                     tg.showAlert("Successfully moved to main balance!");
                 } catch(error) { 
                     console.error("Failed to move balance:", error); 
                     tg.showAlert("Failed to move balance. Please try again.");
                 } finally { 
-                    btn.disabled = false; // বাটন আবার সচল হবে
-                    btn.textContent = 'Move to Main Balance'; 
+                    btn.disabled = false; btn.textContent = 'Move to Main Balance'; 
                     renderUI(); 
                 }
             });
         };
 
+        // --- NEW: Spin Wheel Logic with Ad and Weighted Probability ---
+        const handleSpinWheel = async () => {
+            const today = new Date().toISOString().slice(0, 10);
+            if (userState.lastSpinDate === today) {
+                tg.showAlert("আজকের স্পিন শেষ! আগামীকাল আবার চেষ্টা করুন।");
+                return;
+            }
+
+            // Show Ad Before Spin
+            showInterstitialAd(() => {
+                const wheel = document.getElementById('lucky-wheel');
+                const spinBtn = document.getElementById('spin-btn');
+                spinBtn.disabled = true; 
+                spinBtn.textContent = "Spinning...";
+
+                // Define 12 Segments (Total 360 deg, 30 deg each)
+                // Weights: Higher number = Higher chance
+                const segments = [
+                    { value: 1.0, deg: 15, weight: 20 },
+                    { value: 5.0, deg: 45, weight: 15 },
+                    { value: 10.0, deg: 75, weight: 10 },
+                    { value: 20.0, deg: 105, weight: 5 },
+                    { value: 30.0, deg: 135, weight: 3 },
+                    { value: 50.0, deg: 165, weight: 1 },  // Rare (Low weight)
+                    { value: -50.0, deg: 195, weight: 1 }, // Rare Bad Luck
+                    { value: -30.0, deg: 225, weight: 3 },
+                    { value: -20.0, deg: 255, weight: 5 },
+                    { value: -10.0, deg: 285, weight: 10 },
+                    { value: -5.0, deg: 315, weight: 15 },
+                    { value: -1.0, deg: 345, weight: 12 }
+                ];
+
+                // Weighted Random Selection
+                let totalWeight = segments.reduce((sum, seg) => sum + seg.weight, 0);
+                let randomNum = Math.random() * totalWeight;
+                let randomSegment = segments[0];
+                
+                for (let seg of segments) {
+                    if (randomNum < seg.weight) {
+                        randomSegment = seg;
+                        break;
+                    }
+                    randomNum -= seg.weight;
+                }
+
+                // Spin Animation
+                const totalRotation = (360 * 5) + (360 - randomSegment.deg); 
+                wheel.style.transform = `rotate(${totalRotation}deg)`;
+
+                setTimeout(async () => {
+                    const reward = randomSegment.value;
+                    const db = firebase.database();
+                    
+                    // Update Balance
+                    await db.ref(`users/${tgUser.id}/balance`).set(firebase.database.ServerValue.increment(reward));
+                    await db.ref(`users/${tgUser.id}/lastSpinDate`).set(today);
+                    
+                    userState.balance += reward;
+                    userState.lastSpinDate = today;
+                    renderUI();
+
+                    if (reward > 0) {
+                        tg.HapticFeedback.notificationOccurred('success');
+                        showPopup(`
+                            <div style="text-align:center;">
+                                <img src="https://img.icons8.com/color/96/confetti.png" alt="Win">
+                                <h2 style="color:var(--success);">অভিনন্দন!</h2>
+                                <p>আপনি জিতেছেন <b style="font-size:1.5rem; color:var(--primary-color);">${reward} TK</b></p>
+                                <button class="popup-close-btn">Claim Reward</button>
+                            </div>
+                        `);
+                    } else {
+                        tg.HapticFeedback.notificationOccurred('warning');
+                        showPopup(`
+                            <div style="text-align:center;">
+                                <img src="https://img.icons8.com/color/96/sad.png" alt="Loss">
+                                <h2 style="color:var(--danger);">দুঃখিত!</h2>
+                                <p>আপনার ব্যালেন্স থেকে <b style="font-size:1.5rem; color:var(--danger);">${Math.abs(reward)} TK</b> কাটা হয়েছে।</p>
+                                <button class="popup-close-btn">Close</button>
+                            </div>
+                        `);
+                    }
+                    spinBtn.textContent = "Come back tomorrow";
+                }, 4000);
+            });
+        };
 
         const renderWithdrawalHistory = () => {
             const listEl = document.getElementById('withdrawal-history-list');
@@ -502,24 +595,20 @@
                     navButtons.forEach(btn => btn.classList.remove('active'));
                     button.classList.add('active');
                     if (pageId === 'profile-page') { renderWithdrawalHistory(); }
-                    if (pageId === 'leaderboard-page') { renderLeaderboard(); }
                 });
             });
         };
         
         const setupEventListeners = () => {
             popup.addEventListener('click', (e) => { if (e.target.classList.contains('popup-close-btn') || e.target.id === 'popup') closePopup(); });
-            document.querySelector('.leaderboard-toggle').addEventListener('click', (e) => {
-                if(e.target.classList.contains('toggle-btn')) {
-                    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-                    e.target.classList.add('active');
-                    renderLeaderboard();
-                }
-            });
             document.getElementById('dynamic-tasks-container').addEventListener('click', (e) => handleClaimTask(e));
             document.getElementById('profile-page').addEventListener('submit', (e) => handleWithdraw(e));
             document.getElementById('referral-section').addEventListener('click', (e) => { if(e.target.id === 'copy-ref-link-btn') copyReferralLink(); });
             document.getElementById('move-to-balance-btn').addEventListener('click', handleMoveToBalance);
+            
+            // Spin Button Listener
+            const spinBtnEl = document.getElementById('spin-btn');
+            if(spinBtnEl) spinBtnEl.addEventListener('click', handleSpinWheel);
         };
 
         const renderAdTask = () => {
@@ -548,7 +637,6 @@
                 
                 if (!task || (userState.completedTasks && userState.completedTasks[taskId])) { tg.showAlert('You have already claimed this bonus.'); return; }
                 
-                // --- NEW: Interstitial Ad Logic for Tasks ---
                 showInterstitialAd(() => {
                     tg.openLink(taskUrl);
                     e.target.disabled = true; e.target.textContent = 'Checking...';
@@ -636,22 +724,6 @@
             }
         };
 
-        const renderLeaderboard = () => {
-            const activeBoard = document.querySelector('.toggle-btn.active').dataset.board;
-            const listEl = document.getElementById(activeBoard === 'referral' ? 'referral-leaderboard-list' : 'earning-leaderboard-list');
-            const data = leaderboardData[activeBoard];
-            document.getElementById('referral-board').style.display = activeBoard === 'referral' ? 'block' : 'none';
-            document.getElementById('earning-board').style.display = activeBoard === 'earning' ? 'block' : 'none';
-            listEl.innerHTML = '';
-            if (data.length === 0) { listEl.innerHTML = '<li>No data available.</li>'; return; }
-            data.forEach((user, index) => {
-                const score = activeBoard === 'referral' ? (user.referrals || 0) : (user.totalEarned || 0).toFixed(2);
-                const item = document.createElement('li'); item.className = 'leaderboard-item';
-                item.innerHTML = `<span class="rank">#${index + 1}</span><img src="${user.photoUrl || 'https://via.placeholder.com/40'}" alt="User"><span class="leaderboard-name">${user.firstName}</span><span class="leaderboard-score">${score}</span>`;
-                listEl.appendChild(item);
-            });
-        };
-
         const renderDynamicTasks = () => {
             const container = document.getElementById('dynamic-tasks-container'); container.innerHTML = '';
             if (appConfig.tasks) {
@@ -686,7 +758,6 @@
             container.innerHTML = `<form id="withdraw-form" class="task-container" style="flex-direction: column; align-items: stretch;"><h3>Request Withdraw</h3>${referralNotice}<div class="form-group" style="width:100%"><label for="withdraw-method">Method:</label><select id="withdraw-method" required style="width: 100%; padding: 10px; border-radius: 8px;">${optionsHtml}</select></div><div class="form-group" style="width:100%"><label for="account-number">Account Number/ID:</label><input type="text" id="account-number" required style="width: 100%; padding: 10px; border-radius: 8px;"></div><div class="form-group" style="width:100%"><label for="amount">Amount:</label><input type="number" step="any" id="amount" required style="width: 100%; padding: 10px; border-radius: 8px;"></div><button type="submit" id="withdraw-submit-btn" class="action-btn">Submit Request</button></form>`;
         };
 
-        // --- NEW: Dynamic Links with Interstitial Ads ---
         const renderDynamicLinks = () => {
             const container = document.getElementById('dynamic-links-container'); container.innerHTML = '';
             if (appConfig.links) {
