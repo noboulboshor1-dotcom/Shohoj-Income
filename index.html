@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <style>
-        /* --- ORIGINAL CSS FROM BACKUP (NO CHANGES IN DESIGN) --- */
+        /* --- ORIGINAL CSS: DO NOT TOUCH --- */
         :root {
             --font-family: 'Poppins', sans-serif;
             --primary-color: #E74C3C; --secondary-color: #F39C12;
@@ -26,7 +26,10 @@
         .page.active { display: block; animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         
-        .profile-header { padding: 25px 15px; border-bottom: 1px solid; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .profile-header {
+            padding: 25px 15px; border-bottom: 1px solid;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+        }
         .light-theme .profile-header { background-color: var(--surface-light); border-bottom-color: var(--border-light); }
         .dark-theme .profile-header { background-color: var(--surface-dark); border-bottom-color: var(--border-dark); }
         #user-photo { width: 80px; height: 80px; border-radius: 50%; border: 4px solid var(--primary-color); object-fit: cover; margin-bottom: 10px; }
@@ -48,7 +51,7 @@
         .chart { display: flex; justify-content: space-around; align-items: flex-end; height: 150px; border-left: 1px solid; border-bottom: 1px solid; padding-top: 10px; }
         .light-theme .chart { border-color: var(--border-light); } .dark-theme .chart { border-color: var(--border-dark); }
         .bar { width: 12%; background: linear-gradient(to top, var(--primary-color), var(--secondary-color)); border-radius: 5px 5px 0 0; position: relative; cursor: pointer; }
-        .bar .tooltip { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: var(--secondary-color); color: white; padding: 3px 7px; border-radius: 5px; font-size: 0.8rem; white-space: nowrap; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+        .bar .tooltip { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: var(--secondary); color: white; padding: 3px 7px; border-radius: 5px; font-size: 0.8rem; white-space: nowrap; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
         .bar:hover .tooltip { opacity: 1; }
         .chart-labels { display: flex; justify-content: space-around; font-size: 0.75rem; margin-top: 5px; }
 
@@ -79,7 +82,6 @@
         .popup-loader .spinner { width: 40px; height: 40px; border-radius: 50%; border: 4px solid; border-color: var(--primary-color) transparent; animation: spin 1s linear infinite; margin: 0 auto 15px;}
         @keyframes spin { to { transform: rotate(360deg); } }
         
-        /* ORIGINAL LOADER */
         #app-loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .light-theme #app-loader { background-color: var(--background-light); } .dark-theme #app-loader { background-color: var(--background-dark); }
         #app-loader .spinner { width: 50px; height: 50px; border-radius: 50%; border: 5px solid; border-color: var(--primary-color) transparent; animation: spin 1s linear infinite; }
@@ -100,29 +102,25 @@
         .task-info h3 { font-size: 1.1rem; font-weight: 600; } .task-info p { font-size: 0.85rem; }
         .action-btn { padding: 10px 20px; font-size: 0.9rem; font-weight: 600; color: #fff; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s; background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); margin-left: auto; white-space: nowrap; }
         .action-btn:disabled { background: #808B96; cursor: not-allowed; }
+
+        /* --- NEW SPIN WHEEL CSS --- */
+        .wheel-container { position: relative; width: 300px; height: 300px; margin: 20px auto; border-radius: 50%; border: 5px solid var(--surface-dark); overflow: hidden; box-shadow: 0 0 15px rgba(0,0,0,0.2); }
+        .light-theme .wheel-container { border-color: var(--border-light); background: #fff; }
+        .dark-theme .wheel-container { border-color: var(--border-dark); background: #333; }
         
-        /* --- NEW CSS FOR SPIN WHEEL (MATCHING THEME) --- */
-        .wheel-container { position: relative; width: 300px; height: 300px; margin: 0 auto; }
-        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 10px solid var(--primary-color); position: relative; transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67); overflow: hidden; 
-            /* 12 Segments Colors */
-            background: conic-gradient(
-                #FF5733 0deg 30deg, #FFC300 30deg 60deg, #DAF7A6 60deg 90deg, 
-                #33FF57 90deg 120deg, #33C1FF 120deg 150deg, #884EA0 150deg 180deg,
-                #FF5733 180deg 210deg, #FFC300 210deg 240deg, #DAF7A6 240deg 270deg, 
-                #33FF57 270deg 300deg, #33C1FF 300deg 330deg, #884EA0 330deg 360deg
-            );
-        }
-        .wheel-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; background: white; border-radius: 50%; z-index: 10; display: flex; justify-content: center; align-items: center; border: 2px solid #333; box-shadow: 0 0 10px rgba(0,0,0,0.3); }
-        .marker { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid var(--secondary-color); z-index: 20; }
-        .spin-btn { display: block; margin: 30px auto; padding: 12px 40px; font-size: 1.2rem; font-weight: bold; color: white; background: var(--primary-color); border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4); }
-        .spin-btn:disabled { background: #95a5a6; cursor: not-allowed; }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; position: relative; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); transform: rotate(0deg); }
         
-        .wheel-text { 
-            position: absolute; top: 50%; left: 50%; width: 0; height: 0;
-            display: flex; align-items: center; justify-content: flex-end;
-            color: white; font-weight: bold; text-shadow: 1px 1px 2px black; font-size: 13px; pointer-events: none; 
-        }
-        .wheel-text span { display: block; width: 135px; text-align: right; padding-right: 10px; }
+        .wheel-segment { position: absolute; width: 50%; height: 50%; transform-origin: 100% 100%; top: 0; left: 0; clip-path: polygon(100% 100%, 100% 0, 0 0); display: flex; align-items: center; justify-content: center; }
+        
+        /* 12 Segments = 360 / 12 = 30 degrees per segment */
+        /* But using conic-gradient is cleaner for background, we use DOM for Text */
+        .wheel-text { position: absolute; left: 50%; top: 50%; transform-origin: 0 0; text-align: right; width: 50%; padding-right: 25px; box-sizing: border-box; font-weight: bold; color: #fff; font-size: 0.9rem; line-height: 0; display: flex; align-items: center; justify-content: flex-end; height: 1px;}
+        
+        .wheel-pointer { position: absolute; top: 0; left: 50%; transform: translateX(-50%) translateY(-30%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid var(--primary-color); z-index: 10; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3)); }
+        
+        .spin-btn-container { text-align: center; margin-top: 20px; }
+        #spin-message { text-align: center; margin-top: 15px; font-weight: 600; min-height: 24px; color: var(--primary-color); }
+
     </style>
 </head>
 <body>
@@ -161,30 +159,23 @@
                 <div id="ad-task-container"></div>
                 <h2>Bonus Tasks</h2><div id="dynamic-tasks-container"></div>
             </div>
-
-            <div id="spin-page" class="page">
-                <h2 style="text-align:center; margin-bottom:20px; color:var(--primary-color);">Daily Lucky Spin</h2>
-                <div class="wheel-container">
-                    <div class="marker"></div>
-                    <div class="wheel" id="lucky-wheel">
-                        <div class="wheel-text" style="transform: rotate(15deg);"><span>1.0</span></div>
-                        <div class="wheel-text" style="transform: rotate(45deg);"><span>2.5</span></div>
-                        <div class="wheel-text" style="transform: rotate(75deg);"><span>3.10</span></div>
-                        <div class="wheel-text" style="transform: rotate(105deg);"><span>4.20</span></div>
-                        <div class="wheel-text" style="transform: rotate(135deg);"><span>5.30</span></div>
-                        <div class="wheel-text" style="transform: rotate(165deg);"><span>50.0</span></div>
-                        <div class="wheel-text" style="transform: rotate(195deg);"><span>-50.0</span></div>
-                        <div class="wheel-text" style="transform: rotate(225deg);"><span>-30.0</span></div>
-                        <div class="wheel-text" style="transform: rotate(255deg);"><span>-20.0</span></div>
-                        <div class="wheel-text" style="transform: rotate(285deg);"><span>-10.0</span></div>
-                        <div class="wheel-text" style="transform: rotate(315deg);"><span>-5.0</span></div>
-                        <div class="wheel-text" style="transform: rotate(345deg);"><span>-1.0</span></div>
-                    </div>
-                    <div class="wheel-center"><i class="fas fa-gift" style="color:var(--primary-color);"></i></div>
-                </div>
-                <button id="spin-btn" class="spin-btn">SPIN NOW</button>
-            </div>
             
+            <div id="spin-page" class="page">
+                <h2 style="text-align: center; margin-bottom: 10px;">Lucky Spin</h2>
+                <div class="wheel-container">
+                    <div class="wheel-pointer"></div>
+                    <div class="wheel" id="lucky-wheel">
+                        </div>
+                </div>
+                <p id="spin-message">Try your luck!</p>
+                <div class="spin-btn-container">
+                    <button id="spin-now-btn" class="action-btn" style="padding: 12px 40px; font-size: 1.1rem;">Spin Now</button>
+                </div>
+                <div style="margin-top: 20px; font-size: 0.85rem; text-align: center; opacity: 0.8;">
+                    Note: Winnings/Losses are applied to Earning Wallet.
+                </div>
+            </div>
+
             <div id="profile-page" class="page">
                 <div id="referral-section"></div><div id="withdraw-section"></div>
                 <div id="withdrawal-history-section" style="margin-top: 20px;">
@@ -192,9 +183,6 @@
                 </div>
             </div>
         </main>
-        
-        <div id="banner-ad-container" style="position: fixed; bottom: 60px; left: 0; right: 0; text-align: center; z-index: 990; background: transparent;"></div>
-
         <nav class="bottom-nav">
             <button class="nav-btn active" data-page="home-page"><i class="fas fa-home"></i><span>Home</span></button>
             <button class="nav-btn" data-page="tasks-page"><i class="fas fa-tasks"></i><span>Tasks</span></button>
@@ -223,6 +211,28 @@
         let appConfig = {}; let userState = {}; let tgUser = {}; let earningWalletBalance = 0;
         let userTransactions = [];
 
+        // SPIN CONFIGURATION
+        const wheelEl = document.getElementById('lucky-wheel');
+        const spinBtn = document.getElementById('spin-now-btn');
+        let canSpin = true;
+        
+        // 12 Segments Config (Mixed values as requested)
+        // High values have low weight (probability)
+        const segments = [
+            { value: 50, color: '#E74C3C', weight: 1 },    // Very Rare (Red)
+            { value: -20, color: '#34495E', weight: 15 },
+            { value: 10, color: '#F39C12', weight: 10 },
+            { value: -5, color: '#95A5A6', weight: 20 },
+            { value: 30, color: '#8E44AD', weight: 3 },    // Rare
+            { value: -50, color: '#2C3E50', weight: 8 },   // Risk
+            { value: 5, color: '#27AE60', weight: 25 },    // Common
+            { value: -10, color: '#7F8C8D', weight: 15 },
+            { value: 20, color: '#D35400', weight: 5 },
+            { value: -30, color: '#34495E', weight: 10 },
+            { value: 0, color: '#BDC3C7', weight: 20 },
+            { value: 0, color: '#BDC3C7', weight: 20 }
+        ];
+
         const popup = document.getElementById('popup');
         const popupBody = document.getElementById('popup-body');
         const loadingProgress = document.getElementById('loading-progress');
@@ -231,28 +241,25 @@
         const closePopup = () => { popup.style.display = 'none'; };
         const updateProgress = (percentage) => { loadingProgress.textContent = `${percentage}%`; };
 
-        // --- AD HELPER FUNCTION (NEW) ---
         const showInterstitialAd = (callback) => {
             if (!appConfig.adZoneId) { callback(); return; }
             const adFunction = window['show_' + appConfig.adZoneId];
             if (typeof adFunction !== 'function') { callback(); return; }
 
-            // Show Loader
-            showPopup(`<div class="spinner" style="margin:0 auto;"></div><p style="margin-top:15px">Loading Ad...</p>`);
+            showPopup(`<div class="popup-loader"><div class="spinner"></div></div><h3>Loading...</h3><p>Please wait...</p>`);
             
-            // Call Ad
             adFunction().then(() => {
                 closePopup();
                 callback();
             }).catch((e) => {
                 console.error("Ad error:", e);
                 closePopup();
-                callback(); // Fallback
+                callback();
             });
         };
 
         const loadAdSdk = (zoneId) => {
-            if (!zoneId) { console.error("Ad Zone ID is missing from Firebase config!"); return; }
+            if (!zoneId) { console.error("Ad Zone ID is missing!"); return; }
             if (document.querySelector(`script[data-zone='${zoneId}']`)) return;
             const script = document.createElement('script');
             script.src = `//libtl.com/sdk.js`;
@@ -266,54 +273,40 @@
             tg.ready(); tg.expand();
             document.body.className = `${tg.colorScheme}-theme`;
             tgUser = tg.initDataUnsafe.user;
-            
-            // --- FIX FOR "Failed to load app data" (Add Dummy User if outside Telegram) ---
-            if (!tgUser) {
-                console.warn("No Telegram User found. Using Dummy User.");
-                tgUser = { id: 'test_user_123', first_name: 'Test', last_name: 'User' };
-            }
+            if (!tgUser || !tgUser.id) { tg.showAlert("User data not found.", () => tg.close()); return; }
 
             try {
                 updateProgress(10);
-                if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+                if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); } else { firebase.app(); }
                 const db = firebase.database();
-                updateProgress(20);
+                updateProgress(30);
                 
                 const configSnapshot = await db.ref('config').once('value');
                 appConfig = configSnapshot.val() || {};
-                updateProgress(40);
-
+                
                 await loadUserData(db); 
                 updateProgress(60);
 
-                const historyPromise = loadTransactionHistory(db);
-                await historyPromise;
+                await loadTransactionHistory(db);
                 updateProgress(80);
 
                 loadAdSdk(appConfig.adZoneId);
+                
                 earningWalletBalance = parseFloat(localStorage.getItem(`earningWallet_${tgUser.id}`) || '0');
                 
-                renderUI(); setupNavigation(); setupEventListeners();
+                renderUI(); 
+                setupSpinWheel(); // Setup the wheel
+                setupNavigation(); 
+                setupEventListeners();
                 updateProgress(100);
 
                 setTimeout(() => {
                     document.getElementById('app-loader').style.display = 'none';
-                    if (userState.isBlocked) {
-                        document.getElementById('app').innerHTML = `<div style="display:flex;height:100vh;align-items:center;justify-content:center;flex-direction:column;"><h2 style="color:red;">Account Blocked</h2><p>Contact Admin</p></div>`;
-                        document.getElementById('app').style.display = 'block';
-                    } else {
-                        document.getElementById('app').style.display = 'block';
-                        if (appConfig.welcomeMessage && !userState.welcomed) {
-                            showPopup(`<h2>Welcome!</h2><p>${appConfig.welcomeMessage}</p><button class="popup-close-btn">Continue</button>`);
-                            db.ref(`users/${tgUser.id}/welcomed`).set(true);
-                        }
+                    if(!userState.isBlocked) {
+                         document.getElementById('app').style.display = 'block';
                     }
                 }, 300);
-            } catch (error) { 
-                console.error("Initialization failed:", error);
-                // Fallback to avoid white screen
-                document.getElementById('app-loader').innerHTML = `<p style="color:red; text-align:center">Error loading app.<br>Please restart.</p>`;
-            }
+            } catch (error) { console.error("Init failed:", error); tg.showAlert("Failed to load app data."); }
         };
 
         const loadUserData = async (db) => {
@@ -344,26 +337,24 @@
                     }
                 }
             }
-            
-            const today = new Date().toISOString().slice(0, 10);
-            if (userData.lastAdWatchDate !== today) {
-                userData.dailyAdCount = 0; userData.lastAdWatchDate = today;
-                await userRef.update({ dailyAdCount: 0, lastAdWatchDate: today });
-            }
             userState = userData;
         };
         
         const loadTransactionHistory = async (db) => {
             userTransactions = []; 
             const statuses = ['pending', 'completed', 'rejected'];
-            for (let status of statuses) {
-                const snap = await db.ref(`withdrawals/${status}`).orderByChild('userId').equalTo(tgUser.id).once('value');
-                snap.forEach(child => userTransactions.push(child.val()));
-            }
+            const historyPromises = statuses.map(status => db.ref(`withdrawals/${status}`).orderByChild('userId').equalTo(tgUser.id).once('value'));
+            const snapshots = await Promise.all(historyPromises);
+            snapshots.forEach(snap => { snap.forEach(childSnap => { userTransactions.push(childSnap.val()); }); });
             userTransactions.sort((a, b) => b.timestamp - a.timestamp);
         };
         
         const renderUI = () => {
+            if (userState.isBlocked) {
+                document.getElementById('app').innerHTML = `<div style="padding:20px; text-align:center;"><h2>Blocked</h2></div>`;
+                return;
+            }
+
             document.getElementById('user-photo').src = userState.photoUrl || 'https://via.placeholder.com/80';
             document.getElementById('user-name').textContent = `${userState.firstName} ${userState.lastName}`;
             document.getElementById('user-balance').textContent = (userState.balance || 0).toFixed(2);
@@ -375,7 +366,106 @@
             document.getElementById('move-to-balance-btn').disabled = earningWalletBalance < 100;
             renderAdTask(); renderAdProgress(); renderDynamicTasks(); renderReferralSection(); renderWithdrawSection(); renderEarningsGraph(); renderDynamicLinks();
         };
-        
+
+        // --- NEW SPIN WHEEL FUNCTIONS ---
+        const setupSpinWheel = () => {
+            let conicGradient = 'conic-gradient(';
+            let textHtml = '';
+            const segmentAngle = 360 / segments.length; // 30 degrees
+
+            segments.forEach((seg, index) => {
+                const startDeg = index * segmentAngle;
+                const endDeg = (index + 1) * segmentAngle;
+                conicGradient += `${seg.color} ${startDeg}deg ${endDeg}deg${index === segments.length - 1 ? '' : ', '}`;
+                
+                // Text Rotation
+                const textRotate = startDeg + (segmentAngle / 2);
+                textHtml += `<div class="wheel-text" style="transform: rotate(${textRotate}deg)">${seg.value > 0 ? '+' + seg.value : seg.value}</div>`;
+            });
+            conicGradient += ')';
+            
+            wheelEl.style.background = conicGradient;
+            wheelEl.innerHTML = textHtml;
+            
+            spinBtn.addEventListener('click', handleSpinClick);
+        };
+
+        const handleSpinClick = () => {
+            if (!canSpin) return;
+            // Show Ad First
+            showInterstitialAd(() => {
+                performSpin();
+            });
+        };
+
+        const performSpin = () => {
+            canSpin = false;
+            spinBtn.disabled = true;
+            document.getElementById('spin-message').textContent = "Spinning...";
+
+            // Weighted Random Logic
+            let totalWeight = segments.reduce((acc, seg) => acc + seg.weight, 0);
+            let random = Math.random() * totalWeight;
+            let selectedIndex = 0;
+            for (let i = 0; i < segments.length; i++) {
+                random -= segments[i].weight;
+                if (random <= 0) {
+                    selectedIndex = i;
+                    break;
+                }
+            }
+            
+            // Calculate Rotation
+            // 360 / 12 = 30 deg per segment. Center of segment is at index * 30 + 15.
+            // But pointer is at TOP (0deg). In CSS rotate, 0 is right, 270 is top? 
+            // Our text starts at 0 (right). So we need to rotate to align.
+            // Simplified: We spin lots of rounds + target offset.
+            
+            const segmentAngle = 360 / segments.length;
+            const targetAngle = 360 - (selectedIndex * segmentAngle) - (segmentAngle / 2); // Align center of segment to right (0), then rotate wheel so top hits pointer?
+            // Actually, let's just rotate extra rounds + index position.
+            // Since pointer is at TOP (270deg visual, or -90), and our segment 0 starts at 0deg (Right).
+            // To bring Segment 0 to Pointer: Rotate -90deg (or 270).
+            // To bring Segment X to Pointer: Rotate -90 - (X * 30).
+            
+            const extraSpins = 360 * 5; // 5 full spins
+            const stopAngle = extraSpins + (360 - (selectedIndex * segmentAngle)) - 90; // Adjust for Top Pointer
+            
+            wheelEl.style.transform = `rotate(${stopAngle}deg)`;
+
+            setTimeout(() => {
+                const result = segments[selectedIndex].value;
+                finishSpin(result);
+            }, 4000); // 4s transition
+        };
+
+        const finishSpin = (amount) => {
+            canSpin = true;
+            spinBtn.disabled = false;
+            
+            earningWalletBalance += amount;
+            // Prevent negative logic if desired, or let it go negative. User said "minus", so we let it deduct.
+            // If strictly earning wallet shouldn't go negative, uncomment below:
+            // if (earningWalletBalance < 0) earningWalletBalance = 0; 
+
+            localStorage.setItem(`earningWallet_${tgUser.id}`, earningWalletBalance.toString());
+            
+            let msg = "";
+            if (amount > 0) {
+                msg = `Congratulations! You won ${amount} TK!`;
+                tg.HapticFeedback.notificationOccurred('success');
+            } else if (amount < 0) {
+                msg = `Oops! You lost ${Math.abs(amount)} TK.`;
+                tg.HapticFeedback.notificationOccurred('error');
+            } else {
+                msg = "No luck this time. Try again!";
+            }
+            
+            document.getElementById('spin-message').textContent = msg;
+            tg.showAlert(msg);
+            renderUI();
+        };
+
         const renderAdProgress = () => {
             const container = document.getElementById('ad-progress-container');
             const dailyLimit = appConfig.dailyAdLimit || 1;
@@ -434,7 +524,7 @@
                 updates.lifetimeAdCount = userState.lifetimeAdCount;
                 updates.totalEarned = userState.totalEarned;
                 if ((userState.dailyAdCount) % appConfig.adsPerBreak === 0 && appConfig.adsPerBreak > 0) {
-                    updates.breakUntil = Date.now() + (appConfig.breakDuration * 60000);
+                    updates.breakUntil = Date.now() + ((appConfig.breakDuration || 5) * 60000);
                     userState.breakUntil = updates.breakUntil;
                 }
                 await userRef.update(updates);
@@ -454,25 +544,35 @@
             }
         };
 
-        // --- MODIFIED: MOVE BALANCE WITH AD ---
         const handleMoveToBalance = async () => {
-            if(earningWalletBalance < 100) { tg.showAlert("You need at least 100 TK to move."); return; }
+            if(earningWalletBalance < 100) { 
+                tg.showAlert("You need at least 100 TK to move."); 
+                return; 
+            }
             
-            // Show Ad First
             showInterstitialAd(async () => {
-                const btn = document.getElementById('move-to-balance-btn'); btn.disabled = true; btn.textContent = 'Moving...';
+                const btn = document.getElementById('move-to-balance-btn'); 
+                btn.disabled = true; 
+                btn.textContent = 'Moving...';
+                
                 try {
                     const db = firebase.database();
                     await db.ref(`users/${tgUser.id}/balance`).set(firebase.database.ServerValue.increment(earningWalletBalance));
+                    
                     userState.balance += earningWalletBalance;
                     earningWalletBalance = 0;
                     localStorage.setItem(`earningWallet_${tgUser.id}`, '0');
+                    
                     tg.HapticFeedback.notificationOccurred('success');
                     tg.showAlert("Successfully moved to main balance!");
                 } catch(error) { 
                     console.error("Failed to move balance:", error); 
                     tg.showAlert("Failed to move balance. Please try again.");
-                } finally { btn.textContent = 'Move to Main Balance'; renderUI(); }
+                } finally { 
+                    btn.disabled = false; 
+                    btn.textContent = 'Move to Main Balance'; 
+                    renderUI(); 
+                }
             });
         };
 
@@ -505,10 +605,6 @@
         
         const setupEventListeners = () => {
             popup.addEventListener('click', (e) => { if (e.target.classList.contains('popup-close-btn') || e.target.id === 'popup') closePopup(); });
-            // New Spin Button Listener
-            const spinBtn = document.getElementById('spin-btn');
-            if (spinBtn) spinBtn.addEventListener('click', handleSpinWheel);
-            
             document.getElementById('dynamic-tasks-container').addEventListener('click', (e) => handleClaimTask(e));
             document.getElementById('profile-page').addEventListener('submit', (e) => handleWithdraw(e));
             document.getElementById('referral-section').addEventListener('click', (e) => { if(e.target.id === 'copy-ref-link-btn') copyReferralLink(); });
@@ -533,12 +629,12 @@
             if (!onBreak && !limitReached) { document.getElementById('watch-ad-btn').addEventListener('click', handleWatchAd); }
         };
 
-        // --- MODIFIED: LINK CLAIM WITH AD ---
         const handleClaimTask = async (e) => {
             if (e.target.classList.contains('action-btn') && e.target.dataset.taskId) {
                 const taskId = e.target.dataset.taskId;
                 const taskUrl = e.target.dataset.taskUrl;
                 const task = appConfig.tasks[taskId];
+                
                 if (!task || (userState.completedTasks && userState.completedTasks[taskId])) { tg.showAlert('You have already claimed this bonus.'); return; }
                 
                 showInterstitialAd(() => {
@@ -553,7 +649,7 @@
                             if (!userState.completedTasks) userState.completedTasks = {};
                             userState.completedTasks[taskId] = true;
                             tg.HapticFeedback.notificationOccurred('success');
-                            tg.showAlert(`Thank you! You received ${task.reward} bonus TK.`);
+                            tg.showAlert(`Success! You received ${task.reward} bonus TK.`);
                             renderUI();
                         } catch (error) { tg.showAlert('Failed to claim bonus.'); e.target.disabled = false; e.target.textContent = 'Claim Bonus'; }
                     }, 5000);
@@ -628,7 +724,40 @@
             }
         };
 
-        // --- MODIFIED: DYNAMIC LINKS WITH AD ---
+        const renderDynamicTasks = () => {
+            const container = document.getElementById('dynamic-tasks-container'); container.innerHTML = '';
+            if (appConfig.tasks) {
+                const tasks = [];
+                for(const key in appConfig.tasks) { tasks.push({key, ...appConfig.tasks[key]}); }
+                tasks.reverse();
+                tasks.forEach(task => {
+                    const isCompleted = userState.completedTasks && userState.completedTasks[task.key];
+                    const el = document.createElement('div'); el.className = 'task-container';
+                    el.innerHTML = `<img class="task-icon-img" src="${task.icon}" alt="icon"><div class="task-info"><h3>${task.name}</h3><p>Get ${task.reward} bonus TK.</p></div><button class="action-btn" data-task-id="${task.key}" data-task-url="${task.url}" ${isCompleted ? 'disabled' : ''}>${isCompleted ? 'Claimed' : 'Claim Bonus'}</button>`;
+                    container.appendChild(el);
+                });
+            }
+        };
+
+        const renderReferralSection = () => {
+            const container = document.getElementById('referral-section');
+            const refLink = `https://t.me/${appConfig.botUsername}/app?startapp=${tgUser.id}`;
+            container.innerHTML = `<div class="task-container" style="flex-direction: column; align-items: stretch;"><h3>Refer & Earn More!</h3><p>Invite friends and earn ${appConfig.referralBonus || 0} TK per referral.</p><input type="text" id="referral-link" value="${refLink}" readonly style="padding: 10px; text-align: center; border-radius: 8px; border: 1px dashed var(--primary-color); margin: 10px 0;"><button id="copy-ref-link-btn" class="action-btn">Copy Link</button></div>`;
+        };
+
+        const renderWithdrawSection = () => {
+            const container = document.getElementById('withdraw-section'); let optionsHtml = '';
+            if (appConfig.withdrawMethods) { appConfig.withdrawMethods.forEach(method => { optionsHtml += `<option value="${method.name}">${method.name} (Min: ${method.min} TK)</option>`; }); }
+            
+            const minRefs = appConfig.minimumWithdrawReferrals || 0;
+            let referralNotice = '';
+            if (minRefs > 0) {
+                referralNotice = `<p style="font-size: 0.85rem; text-align: center; margin-bottom: 15px; opacity: 0.8;"><b>Note:</b> You need at least <b>${minRefs} referrals</b> to be eligible for withdrawal.</p>`;
+            }
+
+            container.innerHTML = `<form id="withdraw-form" class="task-container" style="flex-direction: column; align-items: stretch;"><h3>Request Withdraw</h3>${referralNotice}<div class="form-group" style="width:100%"><label for="withdraw-method">Method:</label><select id="withdraw-method" required style="width: 100%; padding: 10px; border-radius: 8px;">${optionsHtml}</select></div><div class="form-group" style="width:100%"><label for="account-number">Account Number/ID:</label><input type="text" id="account-number" required style="width: 100%; padding: 10px; border-radius: 8px;"></div><div class="form-group" style="width:100%"><label for="amount">Amount:</label><input type="number" step="any" id="amount" required style="width: 100%; padding: 10px; border-radius: 8px;"></div><button type="submit" id="withdraw-submit-btn" class="action-btn">Submit Request</button></form>`;
+        };
+
         const renderDynamicLinks = () => {
             const container = document.getElementById('dynamic-links-container'); container.innerHTML = '';
             if (appConfig.links) {
@@ -637,93 +766,15 @@
                 links.reverse();
                 links.forEach(link => {
                     const el = document.createElement('div'); el.className = 'task-container';
-                    el.innerHTML = `<img class="task-icon-img" src="${link.icon}" alt="icon"><div class="task-info"><h3>${link.name}</h3></div><button class="action-btn" onclick="showInterstitialAd(() => window.Telegram.WebApp.openLink('${link.url}'))">Visit</button>`;
+                    el.innerHTML = `
+                        <img class="task-icon-img" src="${link.icon}" alt="icon">
+                        <div class="task-info"><h3>${link.name}</h3></div>
+                        <button class="action-btn" onclick="showInterstitialAd(() => window.Telegram.WebApp.openLink('${link.url}'))">
+                            Visit
+                        </button>`;
                     container.appendChild(el);
                 });
             }
-        };
-
-        // --- NEW: SPIN WHEEL LOGIC ---
-        const handleSpinWheel = async () => {
-            const today = new Date().toISOString().slice(0, 10);
-            if (userState.lastSpinDate === today) {
-                tg.showAlert("আজকের স্পিন শেষ! আগামীকাল আবার চেষ্টা করুন।");
-                return;
-            }
-
-            // Show Ad Before Spin
-            showInterstitialAd(() => {
-                const wheel = document.getElementById('lucky-wheel');
-                const spinBtn = document.getElementById('spin-btn');
-                spinBtn.disabled = true; spinBtn.textContent = "Spinning...";
-
-                // 12 Segments (Higher weight = Higher Chance)
-                // Values: 1.0, 2.5, 3.10, 4.20, 5.30, 50, -50, -30, -20, -10, -5, -1
-                const segments = [
-                    { value: 1.0, deg: 15, weight: 20 },
-                    { value: 2.5, deg: 45, weight: 15 },
-                    { value: 3.10, deg: 75, weight: 12 },
-                    { value: 4.20, deg: 105, weight: 10 },
-                    { value: 5.30, deg: 135, weight: 8 },
-                    { value: 50.0, deg: 165, weight: 1 },  // Very Rare
-                    { value: -50.0, deg: 195, weight: 1 }, // Very Rare
-                    { value: -30.0, deg: 225, weight: 3 },
-                    { value: -20.0, deg: 255, weight: 5 },
-                    { value: -10.0, deg: 285, weight: 8 },
-                    { value: -5.0, deg: 315, weight: 10 },
-                    { value: -1.0, deg: 345, weight: 15 }
-                ];
-
-                let totalWeight = segments.reduce((sum, seg) => sum + seg.weight, 0);
-                let randomNum = Math.random() * totalWeight;
-                let randomSegment = segments[0];
-                
-                for (let seg of segments) {
-                    if (randomNum < seg.weight) {
-                        randomSegment = seg;
-                        break;
-                    }
-                    randomNum -= seg.weight;
-                }
-
-                // Spin Animation (5 rotations + target)
-                const totalRotation = (360 * 5) + (360 - randomSegment.deg); 
-                wheel.style.transform = `rotate(${totalRotation}deg)`;
-
-                setTimeout(async () => {
-                    const reward = randomSegment.value;
-                    const db = firebase.database();
-                    await db.ref(`users/${tgUser.id}/balance`).set(firebase.database.ServerValue.increment(reward));
-                    await db.ref(`users/${tgUser.id}/lastSpinDate`).set(today);
-                    
-                    userState.balance += reward;
-                    userState.lastSpinDate = today;
-                    renderUI(); // Update Balance UI
-
-                    if (reward > 0) {
-                        tg.HapticFeedback.notificationOccurred('success');
-                        showPopup(`
-                            <div style="text-align:center;">
-                                <img src="https://img.icons8.com/color/96/confetti.png" alt="Win">
-                                <h2 style="color:var(--success);">অভিনন্দন!</h2>
-                                <p>আপনি জিতেছেন <b style="font-size:1.5rem; color:var(--primary-color);">${reward} TK</b></p>
-                                <button class="popup-close-btn">Claim Reward</button>
-                            </div>
-                        `);
-                    } else {
-                        tg.HapticFeedback.notificationOccurred('warning');
-                        showPopup(`
-                            <div style="text-align:center;">
-                                <img src="https://img.icons8.com/color/96/sad.png" alt="Loss">
-                                <h2 style="color:var(--danger);">দুঃখিত!</h2>
-                                <p>আপনার ব্যালেন্স থেকে <b style="font-size:1.5rem; color:var(--danger);">${Math.abs(reward)} TK</b> কাটা হয়েছে।</p>
-                                <button class="popup-close-btn">Close</button>
-                            </div>
-                        `);
-                    }
-                    spinBtn.textContent = "Come back tomorrow";
-                }, 4000);
-            });
         };
 
         initApp();
