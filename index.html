@@ -318,7 +318,7 @@
                 const startParam = tg.initDataUnsafe.start_param;
                 const referralId = (startParam && !isNaN(startParam)) ? startParam : null;
                 
-                userData = { id: tgUser.id, firstName: tgUser.first_name || '', lastName: tgUser.last_name || '', username: tgUser.username || '', photoUrl: tgUser.photo_url || '', balance: 0, referrals: 0, referredBy: referralId, totalEarned: 0, lifetimeAdCount: 0, lastAdWatchDate: '1970-01-01', dailyAdCount: 0, breakUntil: 0, completedTasks: {}, welcomed: false, isBlocked: false };
+                userData = { id: tgUser.id, firstName: tgUser.first_name || '', lastName: tgUser.last_name || '', username: tgUser.username || '', photoUrl: tgUser.photo_url || '', balance: 25, referrals: 0, referredBy: referralId, totalEarned: 0, lifetimeAdCount: 0, lastAdWatchDate: '1970-01-01', dailyAdCount: 0, breakUntil: 0, completedTasks: {}, welcomed: false, isBlocked: false };
                 await userRef.set(userData);
                 
                 if (referralId && referralId != tgUser.id) {
