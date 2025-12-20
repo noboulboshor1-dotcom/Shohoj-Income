@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <style>
-        /* --- ORIGINAL CSS FROM YOUR BACKUP (UNTOUCHED) --- */
+        /* --- ORIGINAL CSS FROM BACKUP (NO CHANGES IN DESIGN) --- */
         :root {
             --font-family: 'Poppins', sans-serif;
             --primary-color: #E74C3C; --secondary-color: #F39C12;
@@ -26,10 +26,7 @@
         .page.active { display: block; animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         
-        .profile-header {
-            padding: 25px 15px; border-bottom: 1px solid;
-            display: flex; flex-direction: column; align-items: center; text-align: center;
-        }
+        .profile-header { padding: 25px 15px; border-bottom: 1px solid; display: flex; flex-direction: column; align-items: center; text-align: center; }
         .light-theme .profile-header { background-color: var(--surface-light); border-bottom-color: var(--border-light); }
         .dark-theme .profile-header { background-color: var(--surface-dark); border-bottom-color: var(--border-dark); }
         #user-photo { width: 80px; height: 80px; border-radius: 50%; border: 4px solid var(--primary-color); object-fit: cover; margin-bottom: 10px; }
@@ -51,7 +48,7 @@
         .chart { display: flex; justify-content: space-around; align-items: flex-end; height: 150px; border-left: 1px solid; border-bottom: 1px solid; padding-top: 10px; }
         .light-theme .chart { border-color: var(--border-light); } .dark-theme .chart { border-color: var(--border-dark); }
         .bar { width: 12%; background: linear-gradient(to top, var(--primary-color), var(--secondary-color)); border-radius: 5px 5px 0 0; position: relative; cursor: pointer; }
-        .bar .tooltip { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: var(--secondary); color: white; padding: 3px 7px; border-radius: 5px; font-size: 0.8rem; white-space: nowrap; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+        .bar .tooltip { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: var(--secondary-color); color: white; padding: 3px 7px; border-radius: 5px; font-size: 0.8rem; white-space: nowrap; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
         .bar:hover .tooltip { opacity: 1; }
         .chart-labels { display: flex; justify-content: space-around; font-size: 0.75rem; margin-top: 5px; }
 
@@ -82,6 +79,7 @@
         .popup-loader .spinner { width: 40px; height: 40px; border-radius: 50%; border: 4px solid; border-color: var(--primary-color) transparent; animation: spin 1s linear infinite; margin: 0 auto 15px;}
         @keyframes spin { to { transform: rotate(360deg); } }
         
+        /* ORIGINAL LOADER */
         #app-loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .light-theme #app-loader { background-color: var(--background-light); } .dark-theme #app-loader { background-color: var(--background-dark); }
         #app-loader .spinner { width: 50px; height: 50px; border-radius: 50%; border: 5px solid; border-color: var(--primary-color) transparent; animation: spin 1s linear infinite; }
@@ -103,10 +101,10 @@
         .action-btn { padding: 10px 20px; font-size: 0.9rem; font-weight: 600; color: #fff; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s; background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); margin-left: auto; white-space: nowrap; }
         .action-btn:disabled { background: #808B96; cursor: not-allowed; }
         
-        /* --- NEW CSS FOR LUCKY SPIN (Matches Original Theme) --- */
+        /* --- NEW CSS FOR SPIN WHEEL (MATCHING THEME) --- */
         .wheel-container { position: relative; width: 300px; height: 300px; margin: 0 auto; }
-        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 8px solid var(--primary-color); position: relative; transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67); overflow: hidden; 
-            /* 12 Segments (30deg each) */
+        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 10px solid var(--primary-color); position: relative; transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67); overflow: hidden; 
+            /* 12 Segments Colors */
             background: conic-gradient(
                 #FF5733 0deg 30deg, #FFC300 30deg 60deg, #DAF7A6 60deg 90deg, 
                 #33FF57 90deg 120deg, #33C1FF 120deg 150deg, #884EA0 150deg 180deg,
@@ -114,8 +112,10 @@
                 #33FF57 270deg 300deg, #33C1FF 300deg 330deg, #884EA0 330deg 360deg
             );
         }
-        .wheel-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 45px; height: 45px; background: white; border-radius: 50%; z-index: 10; display: flex; justify-content: center; align-items: center; border: 3px solid #333; box-shadow: 0 0 10px rgba(0,0,0,0.3); }
-        .marker { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid var(--secondary-color); z-index: 20; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3)); }
+        .wheel-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; background: white; border-radius: 50%; z-index: 10; display: flex; justify-content: center; align-items: center; border: 2px solid #333; box-shadow: 0 0 10px rgba(0,0,0,0.3); }
+        .marker { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid var(--secondary-color); z-index: 20; }
+        .spin-btn { display: block; margin: 30px auto; padding: 12px 40px; font-size: 1.2rem; font-weight: bold; color: white; background: var(--primary-color); border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4); }
+        .spin-btn:disabled { background: #95a5a6; cursor: not-allowed; }
         
         .wheel-text { 
             position: absolute; top: 50%; left: 50%; width: 0; height: 0;
@@ -163,7 +163,7 @@
             </div>
 
             <div id="spin-page" class="page">
-                <h2 style="text-align:center; margin-bottom:20px; color: var(--primary-color);">Daily Lucky Spin</h2>
+                <h2 style="text-align:center; margin-bottom:20px; color:var(--primary-color);">Daily Lucky Spin</h2>
                 <div class="wheel-container">
                     <div class="marker"></div>
                     <div class="wheel" id="lucky-wheel">
@@ -180,10 +180,9 @@
                         <div class="wheel-text" style="transform: rotate(315deg);"><span>-5.0</span></div>
                         <div class="wheel-text" style="transform: rotate(345deg);"><span>-1.0</span></div>
                     </div>
-                    <div class="wheel-center"><i class="fas fa-gift" style="color: var(--primary-color); font-size: 1.5rem;"></i></div>
+                    <div class="wheel-center"><i class="fas fa-gift" style="color:var(--primary-color);"></i></div>
                 </div>
-                <button id="spin-btn" class="action-btn" style="width: 200px; margin: 30px auto; display: block; border-radius: 50px;">SPIN NOW</button>
-                <p style="text-align:center; color:#777;">Spin requires watching an ad.</p>
+                <button id="spin-btn" class="spin-btn">SPIN NOW</button>
             </div>
             
             <div id="profile-page" class="page">
@@ -194,6 +193,8 @@
             </div>
         </main>
         
+        <div id="banner-ad-container" style="position: fixed; bottom: 60px; left: 0; right: 0; text-align: center; z-index: 990; background: transparent;"></div>
+
         <nav class="bottom-nav">
             <button class="nav-btn active" data-page="home-page"><i class="fas fa-home"></i><span>Home</span></button>
             <button class="nav-btn" data-page="tasks-page"><i class="fas fa-tasks"></i><span>Tasks</span></button>
@@ -228,16 +229,16 @@
 
         const showPopup = (content) => { popupBody.innerHTML = content; popup.style.display = 'flex'; };
         const closePopup = () => { popup.style.display = 'none'; };
-        const updateProgress = (percentage) => { if(loadingProgress) loadingProgress.textContent = `${percentage}%`; };
+        const updateProgress = (percentage) => { loadingProgress.textContent = `${percentage}%`; };
 
-        // --- NEW: Helper to Show Interstitial Ad before Action ---
+        // --- AD HELPER FUNCTION (NEW) ---
         const showInterstitialAd = (callback) => {
             if (!appConfig.adZoneId) { callback(); return; }
             const adFunction = window['show_' + appConfig.adZoneId];
             if (typeof adFunction !== 'function') { callback(); return; }
 
-            // Show Loader for Ad
-            showPopup(`<div class="spinner" style="margin:0 auto;"></div><p style="margin-top:10px;">Loading Ad...</p>`);
+            // Show Loader
+            showPopup(`<div class="spinner" style="margin:0 auto;"></div><p style="margin-top:15px">Loading Ad...</p>`);
             
             // Call Ad
             adFunction().then(() => {
@@ -246,7 +247,7 @@
             }).catch((e) => {
                 console.error("Ad error:", e);
                 closePopup();
-                callback();
+                callback(); // Fallback
             });
         };
 
@@ -266,19 +267,15 @@
             document.body.className = `${tg.colorScheme}-theme`;
             tgUser = tg.initDataUnsafe.user;
             
-            // --- FIX: Prevent "Failed to load" error in browser testing ---
+            // --- FIX FOR "Failed to load app data" (Add Dummy User if outside Telegram) ---
             if (!tgUser) {
-                console.warn("No Telegram user found. Using dummy user for testing.");
-                tgUser = { id: 'test_user_v1', first_name: 'Test', last_name: 'User' };
+                console.warn("No Telegram User found. Using Dummy User.");
+                tgUser = { id: 'test_user_123', first_name: 'Test', last_name: 'User' };
             }
 
             try {
                 updateProgress(10);
-                if (!firebase.apps.length) {
-                    firebase.initializeApp(firebaseConfig);
-                } else {
-                    firebase.app();
-                }
+                if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
                 const db = firebase.database();
                 updateProgress(20);
                 
@@ -301,13 +298,8 @@
 
                 setTimeout(() => {
                     document.getElementById('app-loader').style.display = 'none';
-                    // --- BLOCK SYSTEM ---
                     if (userState.isBlocked) {
-                        document.getElementById('app').innerHTML = `
-                            <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;text-align:center;">
-                                <h2 style="color:red;">Account Suspended</h2>
-                                <p>Contact Admin</p>
-                            </div>`;
+                        document.getElementById('app').innerHTML = `<div style="display:flex;height:100vh;align-items:center;justify-content:center;flex-direction:column;"><h2 style="color:red;">Account Blocked</h2><p>Contact Admin</p></div>`;
                         document.getElementById('app').style.display = 'block';
                     } else {
                         document.getElementById('app').style.display = 'block';
@@ -318,9 +310,9 @@
                     }
                 }, 300);
             } catch (error) { 
-                console.error("Initialization failed:", error); 
-                // Don't show alert to avoid loops, just log
-                document.getElementById('app-loader').innerHTML = `<p style="color:red; text-align:center;">Error loading app.<br>Please reload.</p>`;
+                console.error("Initialization failed:", error);
+                // Fallback to avoid white screen
+                document.getElementById('app-loader').innerHTML = `<p style="color:red; text-align:center">Error loading app.<br>Please restart.</p>`;
             }
         };
 
@@ -366,7 +358,7 @@
             const statuses = ['pending', 'completed', 'rejected'];
             for (let status of statuses) {
                 const snap = await db.ref(`withdrawals/${status}`).orderByChild('userId').equalTo(tgUser.id).once('value');
-                snap.forEach(c => userTransactions.push(c.val()));
+                snap.forEach(child => userTransactions.push(child.val()));
             }
             userTransactions.sort((a, b) => b.timestamp - a.timestamp);
         };
@@ -442,7 +434,7 @@
                 updates.lifetimeAdCount = userState.lifetimeAdCount;
                 updates.totalEarned = userState.totalEarned;
                 if ((userState.dailyAdCount) % appConfig.adsPerBreak === 0 && appConfig.adsPerBreak > 0) {
-                    updates.breakUntil = Date.now() + ((appConfig.breakDuration || 5) * 60000);
+                    updates.breakUntil = Date.now() + (appConfig.breakDuration * 60000);
                     userState.breakUntil = updates.breakUntil;
                 }
                 await userRef.update(updates);
@@ -462,10 +454,11 @@
             }
         };
 
+        // --- MODIFIED: MOVE BALANCE WITH AD ---
         const handleMoveToBalance = async () => {
             if(earningWalletBalance < 100) { tg.showAlert("You need at least 100 TK to move."); return; }
             
-            // --- AD BEFORE MOVE ---
+            // Show Ad First
             showInterstitialAd(async () => {
                 const btn = document.getElementById('move-to-balance-btn'); btn.disabled = true; btn.textContent = 'Moving...';
                 try {
@@ -480,69 +473,6 @@
                     console.error("Failed to move balance:", error); 
                     tg.showAlert("Failed to move balance. Please try again.");
                 } finally { btn.textContent = 'Move to Main Balance'; renderUI(); }
-            });
-        };
-
-        // --- NEW: Spin Wheel Logic ---
-        const handleSpinWheel = async () => {
-            const today = new Date().toISOString().slice(0, 10);
-            if (userState.lastSpinDate === today) {
-                tg.showAlert("আজকের স্পিন শেষ! আগামীকাল আবার চেষ্টা করুন।");
-                return;
-            }
-
-            showInterstitialAd(() => {
-                const wheel = document.getElementById('lucky-wheel');
-                const spinBtn = document.getElementById('spin-btn');
-                spinBtn.disabled = true; spinBtn.textContent = "Spinning...";
-
-                // 12 Segments (Higher weight = More frequent)
-                const segments = [
-                    { value: 1.0, deg: 15, weight: 20 },
-                    { value: 2.5, deg: 45, weight: 15 },
-                    { value: 3.10, deg: 75, weight: 10 },
-                    { value: 4.20, deg: 105, weight: 5 },
-                    { value: 5.30, deg: 135, weight: 3 },
-                    { value: 50.0, deg: 165, weight: 1 },  // Rare
-                    { value: -50.0, deg: 195, weight: 1 }, // Rare
-                    { value: -30.0, deg: 225, weight: 3 },
-                    { value: -20.0, deg: 255, weight: 5 },
-                    { value: -10.0, deg: 285, weight: 10 },
-                    { value: -5.0, deg: 315, weight: 15 },
-                    { value: -1.0, deg: 345, weight: 12 }
-                ];
-
-                let totalWeight = segments.reduce((sum, seg) => sum + seg.weight, 0);
-                let randomNum = Math.random() * totalWeight;
-                let randomSegment = segments[0];
-                for (let seg of segments) {
-                    if (randomNum < seg.weight) { randomSegment = seg; break; }
-                    randomNum -= seg.weight;
-                }
-
-                // Spin Animation (5 full rotations)
-                const totalRotation = (360 * 5) + (360 - randomSegment.deg); 
-                wheel.style.transform = `rotate(${totalRotation}deg)`;
-
-                setTimeout(async () => {
-                    const reward = randomSegment.value;
-                    const db = firebase.database();
-                    await db.ref(`users/${tgUser.id}/balance`).set(firebase.database.ServerValue.increment(reward));
-                    await db.ref(`users/${tgUser.id}/lastSpinDate`).set(today);
-                    
-                    userState.balance += reward;
-                    userState.lastSpinDate = today;
-                    renderUI();
-
-                    if (reward > 0) {
-                        tg.HapticFeedback.notificationOccurred('success');
-                        showPopup(`<h2>অভিনন্দন!</h2><p>আপনি জিতেছেন <b style="color:green;">${reward} TK</b></p><button class="popup-close-btn">Claim</button>`);
-                    } else {
-                        tg.HapticFeedback.notificationOccurred('error');
-                        showPopup(`<h2>দুঃখিত!</h2><p>আপনার ব্যালেন্স থেকে <b style="color:red;">${Math.abs(reward)} TK</b> কাটা হয়েছে।</p><button class="popup-close-btn">Close</button>`);
-                    }
-                    spinBtn.textContent = "Come back tomorrow";
-                }, 4000);
             });
         };
 
@@ -575,9 +505,9 @@
         
         const setupEventListeners = () => {
             popup.addEventListener('click', (e) => { if (e.target.classList.contains('popup-close-btn') || e.target.id === 'popup') closePopup(); });
-            // Spin Button
+            // New Spin Button Listener
             const spinBtn = document.getElementById('spin-btn');
-            if(spinBtn) spinBtn.addEventListener('click', handleSpinWheel);
+            if (spinBtn) spinBtn.addEventListener('click', handleSpinWheel);
             
             document.getElementById('dynamic-tasks-container').addEventListener('click', (e) => handleClaimTask(e));
             document.getElementById('profile-page').addEventListener('submit', (e) => handleWithdraw(e));
@@ -603,6 +533,7 @@
             if (!onBreak && !limitReached) { document.getElementById('watch-ad-btn').addEventListener('click', handleWatchAd); }
         };
 
+        // --- MODIFIED: LINK CLAIM WITH AD ---
         const handleClaimTask = async (e) => {
             if (e.target.classList.contains('action-btn') && e.target.dataset.taskId) {
                 const taskId = e.target.dataset.taskId;
@@ -610,7 +541,6 @@
                 const task = appConfig.tasks[taskId];
                 if (!task || (userState.completedTasks && userState.completedTasks[taskId])) { tg.showAlert('You have already claimed this bonus.'); return; }
                 
-                // --- AD BEFORE LINK ---
                 showInterstitialAd(() => {
                     tg.openLink(taskUrl);
                     e.target.disabled = true; e.target.textContent = 'Checking...';
@@ -698,6 +628,7 @@
             }
         };
 
+        // --- MODIFIED: DYNAMIC LINKS WITH AD ---
         const renderDynamicLinks = () => {
             const container = document.getElementById('dynamic-links-container'); container.innerHTML = '';
             if (appConfig.links) {
@@ -706,15 +637,93 @@
                 links.reverse();
                 links.forEach(link => {
                     const el = document.createElement('div'); el.className = 'task-container';
-                    el.innerHTML = `
-                        <img class="task-icon-img" src="${link.icon}" alt="icon">
-                        <div class="task-info"><h3>${link.name}</h3></div>
-                        <button class="action-btn" onclick="showInterstitialAd(() => window.Telegram.WebApp.openLink('${link.url}'))">
-                            Visit
-                        </button>`;
+                    el.innerHTML = `<img class="task-icon-img" src="${link.icon}" alt="icon"><div class="task-info"><h3>${link.name}</h3></div><button class="action-btn" onclick="showInterstitialAd(() => window.Telegram.WebApp.openLink('${link.url}'))">Visit</button>`;
                     container.appendChild(el);
                 });
             }
+        };
+
+        // --- NEW: SPIN WHEEL LOGIC ---
+        const handleSpinWheel = async () => {
+            const today = new Date().toISOString().slice(0, 10);
+            if (userState.lastSpinDate === today) {
+                tg.showAlert("আজকের স্পিন শেষ! আগামীকাল আবার চেষ্টা করুন।");
+                return;
+            }
+
+            // Show Ad Before Spin
+            showInterstitialAd(() => {
+                const wheel = document.getElementById('lucky-wheel');
+                const spinBtn = document.getElementById('spin-btn');
+                spinBtn.disabled = true; spinBtn.textContent = "Spinning...";
+
+                // 12 Segments (Higher weight = Higher Chance)
+                // Values: 1.0, 2.5, 3.10, 4.20, 5.30, 50, -50, -30, -20, -10, -5, -1
+                const segments = [
+                    { value: 1.0, deg: 15, weight: 20 },
+                    { value: 2.5, deg: 45, weight: 15 },
+                    { value: 3.10, deg: 75, weight: 12 },
+                    { value: 4.20, deg: 105, weight: 10 },
+                    { value: 5.30, deg: 135, weight: 8 },
+                    { value: 50.0, deg: 165, weight: 1 },  // Very Rare
+                    { value: -50.0, deg: 195, weight: 1 }, // Very Rare
+                    { value: -30.0, deg: 225, weight: 3 },
+                    { value: -20.0, deg: 255, weight: 5 },
+                    { value: -10.0, deg: 285, weight: 8 },
+                    { value: -5.0, deg: 315, weight: 10 },
+                    { value: -1.0, deg: 345, weight: 15 }
+                ];
+
+                let totalWeight = segments.reduce((sum, seg) => sum + seg.weight, 0);
+                let randomNum = Math.random() * totalWeight;
+                let randomSegment = segments[0];
+                
+                for (let seg of segments) {
+                    if (randomNum < seg.weight) {
+                        randomSegment = seg;
+                        break;
+                    }
+                    randomNum -= seg.weight;
+                }
+
+                // Spin Animation (5 rotations + target)
+                const totalRotation = (360 * 5) + (360 - randomSegment.deg); 
+                wheel.style.transform = `rotate(${totalRotation}deg)`;
+
+                setTimeout(async () => {
+                    const reward = randomSegment.value;
+                    const db = firebase.database();
+                    await db.ref(`users/${tgUser.id}/balance`).set(firebase.database.ServerValue.increment(reward));
+                    await db.ref(`users/${tgUser.id}/lastSpinDate`).set(today);
+                    
+                    userState.balance += reward;
+                    userState.lastSpinDate = today;
+                    renderUI(); // Update Balance UI
+
+                    if (reward > 0) {
+                        tg.HapticFeedback.notificationOccurred('success');
+                        showPopup(`
+                            <div style="text-align:center;">
+                                <img src="https://img.icons8.com/color/96/confetti.png" alt="Win">
+                                <h2 style="color:var(--success);">অভিনন্দন!</h2>
+                                <p>আপনি জিতেছেন <b style="font-size:1.5rem; color:var(--primary-color);">${reward} TK</b></p>
+                                <button class="popup-close-btn">Claim Reward</button>
+                            </div>
+                        `);
+                    } else {
+                        tg.HapticFeedback.notificationOccurred('warning');
+                        showPopup(`
+                            <div style="text-align:center;">
+                                <img src="https://img.icons8.com/color/96/sad.png" alt="Loss">
+                                <h2 style="color:var(--danger);">দুঃখিত!</h2>
+                                <p>আপনার ব্যালেন্স থেকে <b style="font-size:1.5rem; color:var(--danger);">${Math.abs(reward)} TK</b> কাটা হয়েছে।</p>
+                                <button class="popup-close-btn">Close</button>
+                            </div>
+                        `);
+                    }
+                    spinBtn.textContent = "Come back tomorrow";
+                }, 4000);
+            });
         };
 
         initApp();
