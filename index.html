@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <style>
-        /* --- CSS VARIABLES: NEW PREMIUM THEME (Blue & Gold) --- */
+        /* --- CSS VARIABLES: PREMIUM BLUE & GOLD THEME --- */
         :root {
             --font-family: 'Poppins', sans-serif;
             
@@ -46,7 +46,7 @@
         .page.active { display: block; animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* --- PRO LOADER STYLE (New Design) --- */
+        /* --- PRO LOADER STYLE (Matches Tomato Earning) --- */
         #app-loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99999;
             background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
@@ -248,6 +248,7 @@
                 <p id="spin-message">Try your luck!</p>
                 <div class="spin-btn-container">
                     <button id="spin-now-btn" class="action-btn" style="padding: 12px 40px; font-size: 1.1rem;">Spin Now</button>
+                    <p id="spin-count-display" style="margin-top: 10px; font-weight: bold; color: var(--text-secondary-light); font-size: 0.9rem;">Today's Spins: 0 / 10</p>
                 </div>
                 <div style="margin-top: 20px; font-size: 0.85rem; text-align: center; opacity: 0.8;">
                     Note: Winnings/Losses are applied to Earning Wallet.
@@ -294,20 +295,20 @@
         const spinBtn = document.getElementById('spin-now-btn');
         let canSpin = true;
         
-        // UPDATED SEGMENTS: LOWER RISK (No more -50, -20)
+        // OPTIMIZED SEGMENTS (Max 50, High Probability for 5/10, Low for 0)
         const segments = [
-            { value: 50, color: '#E74C3C', weight: 1 },    // Jackpot
-            { value: -5, color: '#34495E', weight: 15 },   // Small Risk
-            { value: 10, color: '#F39C12', weight: 10 },   // Win
-            { value: 0, color: '#95A5A6', weight: 20 },    // Neutral
-            { value: 30, color: '#8E44AD', weight: 3 },    // Big Win
-            { value: -15, color: '#2C3E50', weight: 8 },   // Max Loss (Reduced from 50)
-            { value: 5, color: '#27AE60', weight: 25 },    // Common Win
-            { value: -2, color: '#7F8C8D', weight: 15 },   // Tiny Loss
-            { value: 20, color: '#D35400', weight: 5 },    // Good Win
-            { value: -5, color: '#34495E', weight: 10 },   // Small Risk
-            { value: 0, color: '#BDC3C7', weight: 20 },    // Neutral
-            { value: 0, color: '#BDC3C7', weight: 20 }     // Neutral
+            { value: 50, color: '#E74C3C', weight: 1 },    // Jackpot (Very Rare)
+            { value: -5, color: '#34495E', weight: 15 },   // Risk
+            { value: 10, color: '#F39C12', weight: 8 },    // Win
+            { value: 5, color: '#27AE60', weight: 25 },    // Common
+            { value: 30, color: '#8E44AD', weight: 2 },    // Big Win
+            { value: -10, color: '#2C3E50', weight: 10 },  // Loss
+            { value: 5, color: '#27AE60', weight: 25 },    // Common
+            { value: 0, color: '#95A5A6', weight: 10 },    // Neutral (Reduced)
+            { value: 20, color: '#D35400', weight: 4 },    // Good Win
+            { value: -5, color: '#34495E', weight: 15 },   // Risk
+            { value: 0, color: '#BDC3C7', weight: 10 },    // Neutral
+            { value: 2, color: '#7F8C8D', weight: 20 }     // Tiny Win
         ];
 
         const popup = document.getElementById('popup');
@@ -316,7 +317,7 @@
         const showPopup = (content) => { popupBody.innerHTML = content; popup.style.display = 'flex'; };
         const closePopup = () => { popup.style.display = 'none'; };
         
-        // --- NEW UPDATE PROGRESS FUNCTION FOR PRO LOADER ---
+        // --- PRO LOADER LOGIC ---
         const updateProgress = (percentage) => {
             const percentText = document.getElementById('loading-percentage');
             const statusText = document.getElementById('loading-status-text');
@@ -404,7 +405,7 @@
                     if(!userState.isBlocked) {
                          document.getElementById('app').style.display = 'block';
                     }
-                }, 800); // Slightly longer delay to show off the loader
+                }, 800);
             } catch (error) { console.error("Init failed:", error); tg.showAlert("Failed to load app data."); }
         };
 
@@ -417,7 +418,7 @@
                 const startParam = tg.initDataUnsafe.start_param;
                 const referralId = (startParam && !isNaN(startParam)) ? startParam : null;
                 
-                userData = { id: tgUser.id, firstName: tgUser.first_name || '', lastName: tgUser.last_name || '', username: tgUser.username || '', photoUrl: tgUser.photo_url || '', balance: 25, referrals: 0, referredBy: referralId, totalEarned: 0, lifetimeAdCount: 0, lastAdWatchDate: '1970-01-01', dailyAdCount: 0, breakUntil: 0, completedTasks: {}, welcomed: false, isBlocked: false };
+                userData = { id: tgUser.id, firstName: tgUser.first_name || '', lastName: tgUser.last_name || '', username: tgUser.username || '', photoUrl: tgUser.photo_url || '', balance: 25, referrals: 0, referredBy: referralId, totalEarned: 0, lifetimeAdCount: 0, lastAdWatchDate: '1970-01-01', dailyAdCount: 0, dailySpinCount: 0, breakUntil: 0, completedTasks: {}, welcomed: false, isBlocked: false };
                 await userRef.set(userData);
                 
                 if (referralId && referralId != tgUser.id) {
@@ -436,6 +437,16 @@
                     }
                 }
             }
+            
+            // Daily Reset Logic
+            const today = new Date().toISOString().slice(0, 10);
+            if(userData.lastAdWatchDate !== today) {
+                userData.dailyAdCount = 0;
+                userData.dailySpinCount = 0; // Reset Spins
+                userData.lastAdWatchDate = today;
+                await userRef.update({dailyAdCount: 0, dailySpinCount: 0, lastAdWatchDate: today});
+            }
+
             userState = userData;
         };
         
@@ -463,6 +474,20 @@
             document.getElementById('total-earned').textContent = (userState.totalEarned || 0).toFixed(2);
             document.getElementById('earning-wallet-balance').textContent = earningWalletBalance.toFixed(2);
             document.getElementById('move-to-balance-btn').disabled = earningWalletBalance < 100;
+            
+            // --- SPIN LIMIT UI UPDATE ---
+            const spinLimit = 10;
+            const currentSpins = userState.dailySpinCount || 0;
+            const spinDisplay = document.getElementById('spin-count-display');
+            if(spinDisplay) {
+                spinDisplay.textContent = `Today's Spins: ${currentSpins} / ${spinLimit}`;
+                if(currentSpins >= spinLimit) {
+                    spinDisplay.style.color = 'var(--danger)';
+                    document.getElementById('spin-now-btn').disabled = true;
+                    document.getElementById('spin-now-btn').innerText = "Limit Over";
+                }
+            }
+
             renderAdTask(); renderAdProgress(); renderDynamicTasks(); renderReferralSection(); renderWithdrawSection(); renderEarningsGraph(); renderDynamicLinks();
         };
 
@@ -489,6 +514,15 @@
 
         const handleSpinClick = () => {
             if (!canSpin) return;
+            
+            // --- DAILY SPIN LIMIT CHECK ---
+            const spinLimit = 10;
+            const currentSpins = userState.dailySpinCount || 0;
+            if (currentSpins >= spinLimit) {
+                tg.showAlert("Today's spin limit is over! Come back tomorrow.");
+                return;
+            }
+
             showInterstitialAd(() => {
                 performSpin();
             });
@@ -522,10 +556,18 @@
             }, 4000);
         };
 
-        const finishSpin = (amount) => {
+        const finishSpin = async (amount) => {
             canSpin = true;
             spinBtn.disabled = false;
             
+            // --- UPDATE SPIN COUNT ---
+            userState.dailySpinCount = (userState.dailySpinCount || 0) + 1;
+            const db = firebase.database();
+            const updates = {};
+            updates[`users/${tgUser.id}/dailySpinCount`] = userState.dailySpinCount;
+            updates[`users/${tgUser.id}/lastAdWatchDate`] = new Date().toISOString().slice(0, 10);
+            db.ref().update(updates);
+
             earningWalletBalance += amount;
             localStorage.setItem(`earningWallet_${tgUser.id}`, earningWalletBalance.toString());
             
