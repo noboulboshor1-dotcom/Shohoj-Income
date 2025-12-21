@@ -494,25 +494,74 @@
             renderAdTask(); renderAdProgress(); renderDynamicTasks(); renderReferralSection(); renderWithdrawSection(); renderEarningsGraph(); renderDynamicLinks();
         };
         
-                // --- এই নতুন কোডটুকু এখানে বসাও ---
+            // --- UNIQUE NOTICE SYSTEM (Bell Icon + Fixed Button & Text) ---
         const showWelcomeNotice = () => {
-            // যদি ফায়ারবেসে homeNotice না থাকে, তবে কিছুই দেখাবে না
             if (!appConfig.homeNotice) return;
 
+            // পপ-আপের স্টাইল রিসেট (যাতে সুন্দর দেখায়)
+            const popupContent = document.querySelector('.popup-content');
+            if(popupContent) {
+                popupContent.style.background = '#fff'; // সাদা ব্যাকগ্রাউন্ড
+                popupContent.style.padding = '0';
+                popupContent.style.borderRadius = '20px';
+                popupContent.style.width = '85%';
+                popupContent.style.maxWidth = '380px';
+            }
+
             const noticeHtml = `
-                <div style="text-align: left;">
-                    <div style="text-align:center; margin-bottom:15px;">
-                        <i class="fas fa-bell" style="font-size: 3rem; color: var(--secondary-color);"></i>
+                <div style="padding: 25px 20px; text-align: center; position: relative;">
+                    
+                    <div style="margin-bottom: 15px;">
+                        <div style="width: 60px; height: 60px; background: #FFF4E6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                            <i class="fas fa-bell" style="font-size: 1.8rem; color: #F59E0B; animation: swing 2s infinite;"></i>
+                        </div>
                     </div>
-                    <h3 style="color: var(--primary-color); text-align: center; margin-bottom: 15px;">📢 নোটিশ</h3>
-                    <div style="max-height: 250px; overflow-y: auto; font-size: 0.95rem; white-space: pre-line; color: var(--text-secondary-light); line-height: 1.6; background: var(--background-light); padding: 15px; border-radius: 8px;">
+
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #1F2937; margin-bottom: 15px;">নোটিশ</h3>
+
+                    <div style="
+                        text-align: left; 
+                        font-size: 0.95rem; 
+                        color: #4B5563; 
+                        line-height: 1.6; 
+                        max-height: 300px; 
+                        overflow-y: auto; 
+                        white-space: pre-line; /* এই লাইনের কারণে লেখা নিচে নিচে দেখাবে */
+                        background: #F3F4F6;
+                        padding: 15px;
+                        border-radius: 12px;
+                        margin-bottom: 20px;
+                        border: 1px solid #E5E7EB;">
                         ${appConfig.homeNotice}
                     </div>
-                    <button class="action-btn" onclick="closePopup()" style="width: 100%; margin-top: 20px;">ঠিক আছে</button>
+
+                    <button onclick="document.getElementById('popup').style.display='none'" style="
+                        width: 100%; 
+                        background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); 
+                        color: #ffffff; 
+                        padding: 14px; 
+                        border: none; 
+                        border-radius: 12px; 
+                        font-size: 1rem; 
+                        font-weight: 600; 
+                        cursor: pointer; 
+                        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+                        transition: transform 0.2s;">
+                        বুঝেছি (Close)
+                    </button>
                 </div>
+                <style>
+                    @keyframes swing { 0% { transform: rotate(0deg); } 20% { transform: rotate(15deg); } 40% { transform: rotate(-10deg); } 60% { transform: rotate(5deg); } 80% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); } }
+                </style>
             `;
-            showPopup(noticeHtml);
+            
+            const popupBody = document.getElementById('popup-body');
+            const popup = document.getElementById('popup');
+            popupBody.innerHTML = noticeHtml;
+            popup.style.display = 'flex';
         };
+
+        
         
 
         const setupSpinWheel = () => {
