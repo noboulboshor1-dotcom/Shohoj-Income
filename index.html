@@ -395,6 +395,9 @@
                 earningWalletBalance = parseFloat(localStorage.getItem(`earningWallet_${tgUser.id}`) || '0');
                 
                 renderUI(); 
+                
+                setTimeout(() => showWelcomeNotice(), 1500);
+                
                 setupSpinWheel(); 
                 setupNavigation(); 
                 setupEventListeners();
@@ -490,6 +493,27 @@
 
             renderAdTask(); renderAdProgress(); renderDynamicTasks(); renderReferralSection(); renderWithdrawSection(); renderEarningsGraph(); renderDynamicLinks();
         };
+        
+                // --- এই নতুন কোডটুকু এখানে বসাও ---
+        const showWelcomeNotice = () => {
+            // যদি ফায়ারবেসে homeNotice না থাকে, তবে কিছুই দেখাবে না
+            if (!appConfig.homeNotice) return;
+
+            const noticeHtml = `
+                <div style="text-align: left;">
+                    <div style="text-align:center; margin-bottom:15px;">
+                        <i class="fas fa-bell" style="font-size: 3rem; color: var(--secondary-color);"></i>
+                    </div>
+                    <h3 style="color: var(--primary-color); text-align: center; margin-bottom: 15px;">📢 নোটিশ</h3>
+                    <div style="max-height: 250px; overflow-y: auto; font-size: 0.95rem; white-space: pre-line; color: var(--text-secondary-light); line-height: 1.6; background: var(--background-light); padding: 15px; border-radius: 8px;">
+                        ${appConfig.homeNotice}
+                    </div>
+                    <button class="action-btn" onclick="closePopup()" style="width: 100%; margin-top: 20px;">ঠিক আছে</button>
+                </div>
+            `;
+            showPopup(noticeHtml);
+        };
+        
 
         const setupSpinWheel = () => {
             let conicGradient = 'conic-gradient(';
