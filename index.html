@@ -9,14 +9,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <style>
-        /* --- ORIGINAL CSS: DO NOT TOUCH --- */
+        /* --- CSS VARIABLES: NEW PREMIUM THEME (Blue & Gold) --- */
         :root {
             --font-family: 'Poppins', sans-serif;
-            --primary-color: #E74C3C; --secondary-color: #F39C12;
-            --background-light: #FDFEFE; --surface-light: #FFFFFF; --text-primary-light: #2C3E50; --text-secondary-light: #808B96; --border-light: #EAEDED;
-            --background-dark: #1B2631; --surface-dark: #283747; --text-primary-dark: #FDFEFE; --text-secondary-dark: #ABB2B9; --border-dark: #566573;
-            --success: #27AE60; --danger: #C0392B; --pending: #F39C12;
+            
+            /* Premium Colors */
+            --primary-color: #3B82F6;   /* Bright Tech Blue */
+            --secondary-color: #F59E0B; /* Rich Gold */
+            
+            /* Light Theme */
+            --background-light: #F8FAFC; 
+            --surface-light: #FFFFFF; 
+            --text-primary-light: #0F172A; 
+            --text-secondary-light: #64748B; 
+            --border-light: #E2E8F0;
+
+            /* Dark Theme (Deep Navy - Professional Look) */
+            --background-dark: #0B1120; 
+            --surface-dark: #1E293B; 
+            --text-primary-dark: #F1F5F9; 
+            --text-secondary-dark: #94A3B8; 
+            --border-dark: #334155;
+
+            /* Status Colors */
+            --success: #10B981; 
+            --danger: #EF4444; 
+            --pending: #F59E0B;
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: var(--font-family); transition: background-color 0.3s, color 0.3s; -webkit-font-smoothing: antialiased; }
         body.light-theme { background-color: var(--background-light); color: var(--text-primary-light); }
@@ -26,13 +46,57 @@
         .page.active { display: block; animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         
+        /* --- PRO LOADER STYLE (New Design) --- */
+        #app-loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99999;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            color: #fff; font-family: 'Poppins', sans-serif;
+        }
+        .loader-logo-box {
+            position: relative; width: 100px; height: 100px;
+            display: flex; justify-content: center; align-items: center;
+            margin-bottom: 30px;
+        }
+        .loader-ring {
+            position: absolute; width: 100%; height: 100%; border-radius: 50%;
+            border: 3px solid transparent; border-top-color: var(--primary-color);
+            animation: spin 1s linear infinite;
+        }
+        .loader-ring:nth-child(2) {
+            width: 75%; height: 75%; border-top-color: var(--secondary-color);
+            animation: spin 2s linear infinite reverse;
+        }
+        .loader-icon { font-size: 2.5rem; color: #fff; animation: pulse 1.5s infinite; }
+        .loader-text { font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; margin-bottom: 5px; }
+        .loader-sub { font-size: 0.85rem; color: #94a3b8; margin-bottom: 30px; letter-spacing: 0.5px; }
+        .progress-wrapper { width: 80%; max-width: 280px; text-align: left; }
+        .progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.8rem; color: #cbd5e1; }
+        .progress-track {
+            width: 100%; height: 6px; background: rgba(255,255,255,0.1);
+            border-radius: 10px; overflow: hidden; position: relative;
+        }
+        .progress-fill {
+            height: 100%; width: 0%; 
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 0 10px var(--primary-color);
+            transition: width 0.4s ease;
+        }
+        .step-list { margin-top: 30px; display: flex; gap: 10px; justify-content: center; }
+        .step-dot { width: 8px; height: 8px; background: #334155; border-radius: 50%; transition: all 0.3s; }
+        .step-dot.active { background: var(--secondary-color); box-shadow: 0 0 8px var(--secondary-color); transform: scale(1.3); }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.8; } 100% { transform: scale(1); opacity: 1; } }
+
+        /* --- APP STYLES --- */
         .profile-header {
             padding: 25px 15px; border-bottom: 1px solid;
             display: flex; flex-direction: column; align-items: center; text-align: center;
         }
         .light-theme .profile-header { background-color: var(--surface-light); border-bottom-color: var(--border-light); }
         .dark-theme .profile-header { background-color: var(--surface-dark); border-bottom-color: var(--border-dark); }
-        #user-photo { width: 80px; height: 80px; border-radius: 50%; border: 4px solid var(--primary-color); object-fit: cover; margin-bottom: 10px; }
+        #user-photo { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--secondary-color); object-fit: cover; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         #user-name { font-size: 1.4rem; font-weight: 700; margin-bottom: 5px; }
         #user-balance-container { font-size: 1rem; font-weight: 500; }
         #user-balance { font-size: 1.1rem; font-weight: 700; color: var(--primary-color); }
@@ -51,7 +115,7 @@
         .chart { display: flex; justify-content: space-around; align-items: flex-end; height: 150px; border-left: 1px solid; border-bottom: 1px solid; padding-top: 10px; }
         .light-theme .chart { border-color: var(--border-light); } .dark-theme .chart { border-color: var(--border-dark); }
         .bar { width: 12%; background: linear-gradient(to top, var(--primary-color), var(--secondary-color)); border-radius: 5px 5px 0 0; position: relative; cursor: pointer; }
-        .bar .tooltip { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: var(--secondary); color: white; padding: 3px 7px; border-radius: 5px; font-size: 0.8rem; white-space: nowrap; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+        .bar .tooltip { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: var(--secondary-color); color: white; padding: 3px 7px; border-radius: 5px; font-size: 0.8rem; white-space: nowrap; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
         .bar:hover .tooltip { opacity: 1; }
         .chart-labels { display: flex; justify-content: space-around; font-size: 0.75rem; margin-top: 5px; }
 
@@ -70,9 +134,9 @@
         .progress-bar-fg { height: 100%; border-radius: 5px; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); transition: width 0.3s ease; }
         
         form input, form select, form textarea { transition: all 0.2s ease-in-out; border: 1px solid; }
-        .light-theme form input, .light-theme form select { border-color: var(--border-light); }
-        .dark-theme form input, .dark-theme form select { border-color: var(--border-dark); }
-        form input:focus, form select:focus, form textarea:focus { outline: none; border-color: var(--primary-color) !important; box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2); }
+        .light-theme form input, .light-theme form select { border-color: var(--border-light); background: var(--surface-light); color: var(--text-primary-light); }
+        .dark-theme form input, .dark-theme form select { border-color: var(--border-dark); background: var(--background-dark); color: var(--text-primary-dark); }
+        form input:focus, form select:focus, form textarea:focus { outline: none; border-color: var(--primary-color) !important; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
 
         .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 10000; }
         .popup-content { padding: 30px; border-radius: 15px; text-align: center; max-width: 80%; }
@@ -80,13 +144,6 @@
         .popup-content h2 { margin-bottom: 15px; color: var(--primary-color); } .popup-content p { margin-bottom: 20px; }
         .popup-close-btn { padding: 10px 25px; border: none; border-radius: 8px; color: #fff; background-color: var(--primary-color); cursor: pointer; }
         .popup-loader .spinner { width: 40px; height: 40px; border-radius: 50%; border: 4px solid; border-color: var(--primary-color) transparent; animation: spin 1s linear infinite; margin: 0 auto 15px;}
-        @keyframes spin { to { transform: rotate(360deg); } }
-        
-        #app-loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .light-theme #app-loader { background-color: var(--background-light); } .dark-theme #app-loader { background-color: var(--background-dark); }
-        #app-loader .spinner { width: 50px; height: 50px; border-radius: 50%; border: 5px solid; border-color: var(--primary-color) transparent; animation: spin 1s linear infinite; }
-        #loading-progress { margin-top: 15px; font-size: 1.2rem; font-weight: 600; }
-        .light-theme #loading-progress { color: var(--text-primary-light); } .dark-theme #loading-progress { color: var(--text-primary-dark); }
         
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; max-width: 500px; margin: 0 auto; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid; z-index: 1000; }
         .light-theme .bottom-nav { background-color: var(--surface-light); border-top-color: var(--border-light); }
@@ -100,22 +157,17 @@
         .dark-theme .task-container { background-color: var(--surface-dark); border: 1px solid var(--border-dark); }
         .task-icon-img { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; }
         .task-info h3 { font-size: 1.1rem; font-weight: 600; } .task-info p { font-size: 0.85rem; }
-        .action-btn { padding: 10px 20px; font-size: 0.9rem; font-weight: 600; color: #fff; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s; background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); margin-left: auto; white-space: nowrap; }
-        .action-btn:disabled { background: #808B96; cursor: not-allowed; }
+        .action-btn { padding: 10px 20px; font-size: 0.9rem; font-weight: 600; color: #fff; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s; background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); margin-left: auto; white-space: nowrap; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .action-btn:disabled { background: #64748B; cursor: not-allowed; box-shadow: none; }
 
-        /* --- NEW SPIN WHEEL CSS --- */
-        .wheel-container { position: relative; width: 300px; height: 300px; margin: 20px auto; border-radius: 50%; border: 5px solid var(--surface-dark); overflow: hidden; box-shadow: 0 0 15px rgba(0,0,0,0.2); }
+        /* --- SPIN WHEEL CSS --- */
+        .wheel-container { position: relative; width: 300px; height: 300px; margin: 20px auto; border-radius: 50%; border: 5px solid var(--surface-dark); overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.3); }
         .light-theme .wheel-container { border-color: var(--border-light); background: #fff; }
-        .dark-theme .wheel-container { border-color: var(--border-dark); background: #333; }
+        .dark-theme .wheel-container { border-color: var(--border-dark); background: #0f172a; }
         
         .wheel { width: 100%; height: 100%; border-radius: 50%; position: relative; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); transform: rotate(0deg); }
-        
         .wheel-segment { position: absolute; width: 50%; height: 50%; transform-origin: 100% 100%; top: 0; left: 0; clip-path: polygon(100% 100%, 100% 0, 0 0); display: flex; align-items: center; justify-content: center; }
-        
-        /* 12 Segments = 360 / 12 = 30 degrees per segment */
-        /* But using conic-gradient is cleaner for background, we use DOM for Text */
         .wheel-text { position: absolute; left: 50%; top: 50%; transform-origin: 0 0; text-align: right; width: 50%; padding-right: 25px; box-sizing: border-box; font-weight: bold; color: #fff; font-size: 0.9rem; line-height: 0; display: flex; align-items: center; justify-content: flex-end; height: 1px;}
-        
         .wheel-pointer { position: absolute; top: 0; left: 50%; transform: translateX(-50%) translateY(-30%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid var(--primary-color); z-index: 10; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3)); }
         
         .spin-btn-container { text-align: center; margin-top: 20px; }
@@ -124,7 +176,33 @@
     </style>
 </head>
 <body>
-    <div id="app-loader"><div class="spinner"></div><p id="loading-progress">0%</p></div>
+    <div id="app-loader">
+        <div class="loader-logo-box">
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <i class="fas fa-bolt loader-icon"></i>
+        </div>
+        
+        <div class="loader-text">Shohoj Income⚡</div>
+        <p class="loader-sub">Secure Earning Environment</p>
+    
+        <div class="progress-wrapper">
+            <div class="progress-header">
+                <span id="loading-status-text">Initializing...</span>
+                <span id="loading-percentage">0%</span>
+            </div>
+            <div class="progress-track">
+                <div id="progress-fill-bar" class="progress-fill"></div>
+            </div>
+        </div>
+    
+        <div class="step-list">
+            <div id="dot-1" class="step-dot"></div>
+            <div id="dot-2" class="step-dot"></div>
+            <div id="dot-3" class="step-dot"></div>
+        </div>
+    </div>
+
     <div id="popup" class="popup-overlay"><div class="popup-content"><div id="popup-body"></div></div></div>
     
     <div id="app" style="display: none;">
@@ -216,30 +294,51 @@
         const spinBtn = document.getElementById('spin-now-btn');
         let canSpin = true;
         
-        // 12 Segments Config (Mixed values as requested)
-        // High values have low weight (probability)
+        // UPDATED SEGMENTS: LOWER RISK (No more -50, -20)
         const segments = [
-            { value: 50, color: '#E74C3C', weight: 1 },    // Very Rare (Red)
-            { value: -20, color: '#34495E', weight: 15 },
-            { value: 10, color: '#F39C12', weight: 10 },
-            { value: -5, color: '#95A5A6', weight: 20 },
-            { value: 30, color: '#8E44AD', weight: 3 },    // Rare
-            { value: -50, color: '#2C3E50', weight: 8 },   // Risk
-            { value: 5, color: '#27AE60', weight: 25 },    // Common
-            { value: -10, color: '#7F8C8D', weight: 15 },
-            { value: 20, color: '#D35400', weight: 5 },
-            { value: -30, color: '#34495E', weight: 10 },
-            { value: 0, color: '#BDC3C7', weight: 20 },
-            { value: 0, color: '#BDC3C7', weight: 20 }
+            { value: 50, color: '#E74C3C', weight: 1 },    // Jackpot
+            { value: -5, color: '#34495E', weight: 15 },   // Small Risk
+            { value: 10, color: '#F39C12', weight: 10 },   // Win
+            { value: 0, color: '#95A5A6', weight: 20 },    // Neutral
+            { value: 30, color: '#8E44AD', weight: 3 },    // Big Win
+            { value: -15, color: '#2C3E50', weight: 8 },   // Max Loss (Reduced from 50)
+            { value: 5, color: '#27AE60', weight: 25 },    // Common Win
+            { value: -2, color: '#7F8C8D', weight: 15 },   // Tiny Loss
+            { value: 20, color: '#D35400', weight: 5 },    // Good Win
+            { value: -5, color: '#34495E', weight: 10 },   // Small Risk
+            { value: 0, color: '#BDC3C7', weight: 20 },    // Neutral
+            { value: 0, color: '#BDC3C7', weight: 20 }     // Neutral
         ];
 
         const popup = document.getElementById('popup');
         const popupBody = document.getElementById('popup-body');
-        const loadingProgress = document.getElementById('loading-progress');
 
         const showPopup = (content) => { popupBody.innerHTML = content; popup.style.display = 'flex'; };
         const closePopup = () => { popup.style.display = 'none'; };
-        const updateProgress = (percentage) => { loadingProgress.textContent = `${percentage}%`; };
+        
+        // --- NEW UPDATE PROGRESS FUNCTION FOR PRO LOADER ---
+        const updateProgress = (percentage) => {
+            const percentText = document.getElementById('loading-percentage');
+            const statusText = document.getElementById('loading-status-text');
+            const bar = document.getElementById('progress-fill-bar');
+            
+            if(percentText) percentText.textContent = `${percentage}%`;
+            if(bar) bar.style.width = `${percentage}%`;
+
+            if(percentage < 30) {
+                if(statusText) statusText.textContent = "Connecting Server...";
+                document.getElementById('dot-1')?.classList.add('active');
+            } else if(percentage < 70) {
+                if(statusText) statusText.textContent = "Verifying User Data...";
+                document.getElementById('dot-1')?.classList.add('active');
+                document.getElementById('dot-2')?.classList.add('active');
+            } else {
+                if(statusText) statusText.textContent = "Finalizing Dashboard...";
+                document.getElementById('dot-1')?.classList.add('active');
+                document.getElementById('dot-2')?.classList.add('active');
+                document.getElementById('dot-3')?.classList.add('active');
+            }
+        };
 
         const showInterstitialAd = (callback) => {
             if (!appConfig.adZoneId) { callback(); return; }
@@ -295,7 +394,7 @@
                 earningWalletBalance = parseFloat(localStorage.getItem(`earningWallet_${tgUser.id}`) || '0');
                 
                 renderUI(); 
-                setupSpinWheel(); // Setup the wheel
+                setupSpinWheel(); 
                 setupNavigation(); 
                 setupEventListeners();
                 updateProgress(100);
@@ -305,7 +404,7 @@
                     if(!userState.isBlocked) {
                          document.getElementById('app').style.display = 'block';
                     }
-                }, 300);
+                }, 800); // Slightly longer delay to show off the loader
             } catch (error) { console.error("Init failed:", error); tg.showAlert("Failed to load app data."); }
         };
 
@@ -367,18 +466,16 @@
             renderAdTask(); renderAdProgress(); renderDynamicTasks(); renderReferralSection(); renderWithdrawSection(); renderEarningsGraph(); renderDynamicLinks();
         };
 
-        // --- NEW SPIN WHEEL FUNCTIONS ---
         const setupSpinWheel = () => {
             let conicGradient = 'conic-gradient(';
             let textHtml = '';
-            const segmentAngle = 360 / segments.length; // 30 degrees
+            const segmentAngle = 360 / segments.length;
 
             segments.forEach((seg, index) => {
                 const startDeg = index * segmentAngle;
                 const endDeg = (index + 1) * segmentAngle;
                 conicGradient += `${seg.color} ${startDeg}deg ${endDeg}deg${index === segments.length - 1 ? '' : ', '}`;
                 
-                // Text Rotation
                 const textRotate = startDeg + (segmentAngle / 2);
                 textHtml += `<div class="wheel-text" style="transform: rotate(${textRotate}deg)">${seg.value > 0 ? '+' + seg.value : seg.value}</div>`;
             });
@@ -392,7 +489,6 @@
 
         const handleSpinClick = () => {
             if (!canSpin) return;
-            // Show Ad First
             showInterstitialAd(() => {
                 performSpin();
             });
@@ -403,7 +499,6 @@
             spinBtn.disabled = true;
             document.getElementById('spin-message').textContent = "Spinning...";
 
-            // Weighted Random Logic
             let totalWeight = segments.reduce((acc, seg) => acc + seg.weight, 0);
             let random = Math.random() * totalWeight;
             let selectedIndex = 0;
@@ -415,28 +510,16 @@
                 }
             }
             
-            // Calculate Rotation
-            // 360 / 12 = 30 deg per segment. Center of segment is at index * 30 + 15.
-            // But pointer is at TOP (0deg). In CSS rotate, 0 is right, 270 is top? 
-            // Our text starts at 0 (right). So we need to rotate to align.
-            // Simplified: We spin lots of rounds + target offset.
-            
             const segmentAngle = 360 / segments.length;
-            const targetAngle = 360 - (selectedIndex * segmentAngle) - (segmentAngle / 2); // Align center of segment to right (0), then rotate wheel so top hits pointer?
-            // Actually, let's just rotate extra rounds + index position.
-            // Since pointer is at TOP (270deg visual, or -90), and our segment 0 starts at 0deg (Right).
-            // To bring Segment 0 to Pointer: Rotate -90deg (or 270).
-            // To bring Segment X to Pointer: Rotate -90 - (X * 30).
-            
-            const extraSpins = 360 * 5; // 5 full spins
-            const stopAngle = extraSpins + (360 - (selectedIndex * segmentAngle)) - 90; // Adjust for Top Pointer
+            const extraSpins = 360 * 5; 
+            const stopAngle = extraSpins + (360 - (selectedIndex * segmentAngle)) - 90; 
             
             wheelEl.style.transform = `rotate(${stopAngle}deg)`;
 
             setTimeout(() => {
                 const result = segments[selectedIndex].value;
                 finishSpin(result);
-            }, 4000); // 4s transition
+            }, 4000);
         };
 
         const finishSpin = (amount) => {
@@ -444,10 +527,6 @@
             spinBtn.disabled = false;
             
             earningWalletBalance += amount;
-            // Prevent negative logic if desired, or let it go negative. User said "minus", so we let it deduct.
-            // If strictly earning wallet shouldn't go negative, uncomment below:
-            // if (earningWalletBalance < 0) earningWalletBalance = 0; 
-
             localStorage.setItem(`earningWallet_${tgUser.id}`, earningWalletBalance.toString());
             
             let msg = "";
