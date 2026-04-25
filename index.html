@@ -419,24 +419,41 @@
             
             if (!userData) {
                 const startParam = tg.initDataUnsafe.start_param;
-                const referralId = (startParam && !isNaN(startParam)) ? startParam : null;
+                // স্ট্রিং ট্রিম করে চেক করা হয়েছে যেন খালি স্পেস সমস্যা না করে
+                const referralId = (startParam && startParam.trim() !== "") ? startParam.trim() : null;
                 
-                userData = { id: tgUser.id, firstName: tgUser.first_name || '', lastName: tgUser.last_name || '', username: tgUser.username || '', photoUrl: tgUser.photo_url || '', balance: 25, referrals: 0, referredBy: referralId, totalEarned: 0, lifetimeAdCount: 0, lastAdWatchDate: '1970-01-01', dailyAdCount: 0, dailySpinCount: 0, breakUntil: 0, completedTasks: {}, welcomed: false, isBlocked: false };
+                userData = { 
+                    id: tgUser.id, 
+                    firstName: tgUser.first_name || '', 
+                    lastName: tgUser.last_name || '', 
+                    username: tgUser.username || '', 
+                    photoUrl: tgUser.photo_url || '', 
+                    balance: 25, // ওয়েলকাম বোনাস
+                    referrals: 0, 
+                    referredBy: referralId, 
+                    totalEarned: 0, 
+                    lifetimeAdCount: 0, 
+                    lastAdWatchDate: '1970-01-01', 
+                    dailyAdCount: 0, 
+                    dailySpinCount: 0, 
+                    breakUntil: 0, 
+                    completedTasks: {}, 
+                    welcomed: false, 
+                    isBlocked: false 
+                };
                 await userRef.set(userData);
                 
-                if (referralId && referralId != tgUser.id) {
+                // --- রেফারেল লজিক আপডেট (ServerValue.increment ব্যবহার করা হয়েছে) ---
+                if (referralId && String(referralId) !== String(tgUser.id)) {
                     const referrerRef = db.ref(`users/${referralId}`);
                     const bonusAmount = parseFloat(appConfig.referralBonus || 0);
+                    
+                    // রেফারেল কাউন্ট ১ বাড়িয়ে দেওয়া হলো
+                    await referrerRef.child('referrals').set(firebase.database.ServerValue.increment(1));
+                    
+                    // যদি অ্যাডমিনে বোনাস সেট করা থাকে, তাহলে ব্যালেন্স যোগ হবে
                     if (bonusAmount > 0) {
-                        await referrerRef.transaction(currentData => {
-                            if (currentData) {
-                                currentData.balance = (currentData.balance || 0) + bonusAmount;
-                                currentData.referrals = (currentData.referrals || 0) + 1;
-                            }
-                            return currentData;
-                        });
-                    } else {
-                        await referrerRef.child('referrals').set(firebase.database.ServerValue.increment(1));
+                        await referrerRef.child('balance').set(firebase.database.ServerValue.increment(bonusAmount));
                     }
                 }
             }
@@ -560,9 +577,6 @@
             popupBody.innerHTML = noticeHtml;
             popup.style.display = 'flex';
         };
-
-        
-        
 
         const setupSpinWheel = () => {
             let conicGradient = 'conic-gradient(';
